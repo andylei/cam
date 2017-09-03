@@ -20,11 +20,25 @@
   </head>
   <body>
     <h1>hi</h1>
-    <div class="controls">
-      <select id="sort-by">
-        <option value="size">Size</option>
-        <option value="model">Model</option>
-      </select>
+    <ul class="controls">
+      <li class="control">
+        <label for="sort-by">Sort by</label>
+        <select id="sort-by">
+          <option value="model">Model</option>
+          <option value="size">Size</option>
+        </select>
+      </li>
+      <li class="control">
+        <label for="expansion">Expansion</label>
+        <select id="expansion">
+          <option value="max">Max</option>
+          <option value="usable">Usable</option>
+        </select>
+      </li>
+      <li class="control">
+        <input id="control-filter"/>
+        <button id="control-filter-ok">Filter</button>
+      </li>
     </div>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
@@ -45,12 +59,25 @@
                            'usable_lower', 'usable_upper'];
       let DATA = null;
 
+      let CONFIG = {
+        sortOn: 'model',
+        expansion: 'max'
+      };
+
       function bindEventHandlers() {
-        document.getElementById('sort-by').on('change', function(e) {
-          debugger;
+        document.getElementById('sort-by').addEventListener('change', function(e) {
+          CONFIG.sortOn = e.target.value;
+          rerender();
+        });
+        document.getElementById('expansion').addEventListener('change', function(e) {
+          CONFIG.expansion = e.target.value;
+          rerender();
+        });
+        document.getElementById('control-filter-ok').addEventListener('click', function(e) {
+          CONFIG.filter = document.getElementById('control-filter').value;
+          rerender();
         });
       }
-
 
       function loadData(cb) {
         d3.tsv("data.tsv", function(d) {
@@ -66,7 +93,8 @@
       }
 
       function rerender() {
-        let data = DATA;
+        let data = filterData(DATA);
+        sortData(data);
         let numRows = data.length;
         let height = barHeight * numRows;
         let frameHeight = height + margin.top + margin.bottom;
@@ -74,9 +102,19 @@
 
         let y = d3.scaleBand().rangeRound([0, height]).padding(0.1),
             x = d3.scaleLinear().rangeRound([0, width]);
+        let upperProp, lowerProp;
+        if (CONFIG.expansion === 'max') {
+          upperProp = 'upper';
+          lowerProp = 'lower';
+        } else {
+          upperProp = 'usable_upper';
+          lowerProp = 'usable_lower';
+        }
 
-        x.domain([d3.min(data, prop('lower')), d3.max(data, prop('upper')) ]);
+        x.domain([d3.min(data, prop(lowerProp)), d3.max(data, prop(upperProp)) ]);
         y.domain(d3.range(numRows));
+
+        container.selectAll('g').remove();
 
         container.append("g")
                  .attr("class", "axis axis--x")
@@ -94,18 +132,53 @@
                             .attr('class', 'bar');
 
         let barRects = bars.append('rect')
-                           .attr("x", (d) => x(d.lower))
+                           .attr("x", (d) => x(d[lowerProp]))
                            .attr("y", (d, i) => y(i))
-                           .attr("width", (d) => x(d.upper) - x(d.lower))
+                           .attr("width", (d) => x(d[upperProp]) - x(d[lowerProp]))
                            .attr("height", y.bandwidth());
 
         let labels = bars.append('text')
-                         .attr('x', (d) => x(d.upper) + 5)
+                         .attr('x', (d) => x(d[upperProp]) + 5)
                          .attr('y', (d, i) => y(i) + barHeight)
                          .attr('dy', '-.35em')
                          .text((d) => `${d.brand} ${d.model} ${d.size}`);
       }
 
+      SORT_FNS = {
+        model: (d0, d1) => d0.model == d1.model ? 0 : (d0.model < d1.model ? -1 : 1),
+        size: (d0, d1) => d0.lower - d1.lower
+      }
+      function combineSort(first, second) {
+        return (d0, d1) => {
+          let v = first(d0, d1);
+          return v === 0 ? second(d0, d1) : v;
+        }
+      }
+
+      function filterData(data) {
+        if (!CONFIG.filter) {
+          return data;
+        }
+        let f = CONFIG.filter.toLowerCase().trim();
+        return data.filter((d) => d.model.toLowerCase().includes(f) || d.brand.toLowerCase().includes(f));
+      }
+
+      function sortData(data) {
+        let sortFn;
+        switch (CONFIG.sortOn) {
+          case 'model':
+            sortFn = combineSort(SORT_FNS.model, SORT_FNS.size);
+            break;
+          case 'size':
+            sortFn = SORT_FNS.size;
+            break;
+          default:
+            throw new Error('unknown sort type: ' + CONFIG.sortOn);
+        }
+        data.sort(sortFn);
+      }
+
+      bindEventHandlers();
       loadData(rerender);
     </script>
   </body>
