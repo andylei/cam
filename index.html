@@ -38,9 +38,9 @@
       <li class="control">
         <label for="control-color">Color using</label>
         <select id="control-color">
-          <option value="none">None</option>
           <option value="cam">Cam color</option>
           <option value="model">Model</option>
+          <option value="none">None</option>
         </select>
       </li>
       <li class="control">
@@ -50,158 +50,186 @@
     </div>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/chroma-js/chroma.js"></script>
     <script>
-      function prop(name) {
-        return (obj) => obj[name];
-      }
+     let COLORS = ['#2a80b9', '#8f44ad', '#c1392b', '#f39c11', '#27ae61', '#2d3e50'];
+     function prop(name) {
+       return (obj) => obj[name];
+     }
 
-      let barHeight = 20;
-      var svg = d3.select("svg"),
-          margin = {top: 20, right: 20, bottom: 30, left: 40},
-          width = +svg.attr("width") - margin.left - margin.right;
+     let barHeight = 20;
+     var svg = d3.select("svg"),
+         margin = {top: 20, right: 20, bottom: 30, left: 40},
+         width = +svg.attr("width") - margin.left - margin.right;
 
-      let container = svg.append("g")
-                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+     let container = svg.append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      let NUMERIC_PROPS = ['weight', 'strength', 'lower', 'upper', 'range',
-                           'usable_lower', 'usable_upper'];
-      let DATA = null;
+     let NUMERIC_PROPS = ['weight', 'strength', 'lower', 'upper', 'range',
+                          'usable_lower', 'usable_upper'];
+     let DATA = null;
 
-      let CONFIG = {
-        sortOn: 'model',
-        expansion: 'max',
-        filter: null,
-        color: 'none'
-      };
+     let CONFIG = {
+       sortOn: 'model',
+       expansion: 'max',
+       filter: null,
+       color: 'cam'
+     };
 
-      function bindById(id, evt, handler) {
-        document.getElementById(id).addEventListener(evt, handler);
-      }
+     function bindById(id, evt, handler) {
+       document.getElementById(id).addEventListener(evt, handler);
+     }
 
+     function bindEventHandlers() {
+       bindById('sort-by', 'change', function(e) {
+         CONFIG.sortOn = e.target.value;
+         rerender();
+       });
+       bindById('expansion', 'change', function(e) {
+         CONFIG.expansion = e.target.value;
+         rerender();
+       });
+       bindById('control-filter-ok', 'click', function(e) {
+         CONFIG.filter = document.getElementById('control-filter').value;
+         rerender();
+       });
+       bindById('control-color', 'change', function(e) {
+         CONFIG.color = e.target.value
+         rerender();
+       });
+     }
 
-      function bindEventHandlers() {
-        bindById('sort-by', 'change', function(e) {
-          CONFIG.sortOn = e.target.value;
-          rerender();
-        });
-        bindById('expansion', 'change', function(e) {
-          CONFIG.expansion = e.target.value;
-          rerender();
-        });
-        bindById('control-filter-ok', 'click', function(e) {
-          CONFIG.filter = document.getElementById('control-filter').value;
-          rerender();
-        });
-        bindById('control-color', 'change', function(e) {
-          CONFIG.color = e.target.value
-          rerender();
-        });
-      }
+     function loadData(cb) {
+       d3.tsv("data.tsv", function(d) {
+         for (let prop of NUMERIC_PROPS) {
+           d[prop] = +d[prop];
+         }
+         return d;
+       }, function(error, data) {
+         if (error) throw error;
+         DATA = data;
+         cb();
+       });
+     }
 
-      function loadData(cb) {
-        d3.tsv("data.tsv", function(d) {
-          for (let prop of NUMERIC_PROPS) {
-            d[prop] = +d[prop];
-          }
-          return d;
-        }, function(error, data) {
-          if (error) throw error;
-          DATA = data;
-          cb();
-        });
-      }
+     function buildColorMap(data) {
+       let models = {};
+       for (let row of data) {
+         models[row.model] = true;
+       }
+       models = Object.keys(models);
+       models.sort();
+       let colorMap = {};
+       let i = 0;
+       for (let model of models) {
+         colorMap[model] = COLORS[i];
+         i = (i + 1) % COLORS.length;
+         console.log(i);
+       }
+       return colorMap;
+     }
 
-      function rerender() {
-        let data = filterData(DATA);
-        sortData(data);
-        let numRows = data.length;
-        let height = barHeight * numRows;
-        let frameHeight = height + margin.top + margin.bottom;
-        svg.attr('height', frameHeight + 'px');
+     function rerender() {
+       let data = filterData(DATA);
+       sortData(data);
+       let numRows = data.length;
+       let height = barHeight * numRows;
+       let frameHeight = height + margin.top + margin.bottom;
+       svg.attr('height', frameHeight + 'px');
 
-        let y = d3.scaleBand().rangeRound([0, height]).padding(0.1),
-            x = d3.scaleLinear().rangeRound([0, width]);
-        let upperProp, lowerProp;
-        if (CONFIG.expansion === 'max') {
-          upperProp = 'upper';
-          lowerProp = 'lower';
-        } else {
-          upperProp = 'usable_upper';
-          lowerProp = 'usable_lower';
-        }
+       let y = d3.scaleBand().rangeRound([0, height]).padding(0.1),
+           x = d3.scaleLinear().rangeRound([0, width]);
+       let upperProp, lowerProp;
+       if (CONFIG.expansion === 'max') {
+         upperProp = 'upper';
+         lowerProp = 'lower';
+       } else {
+         upperProp = 'usable_upper';
+         lowerProp = 'usable_lower';
+       }
 
-        x.domain([d3.min(data, prop(lowerProp)), d3.max(data, prop(upperProp)) ]);
-        y.domain(d3.range(numRows));
+       x.domain([d3.min(data, prop(lowerProp)), d3.max(data, prop(upperProp)) ]);
+       y.domain(d3.range(numRows));
 
-        container.selectAll('g').remove();
+       container.selectAll('g').remove();
 
-        container.append("g")
-                 .attr("class", "axis axis--x")
-                 .attr("transform", "translate(0," + height + ")")
-                 .call(d3.axisBottom(x).ticks(20));
+       container.append("g")
+                .attr("class", "axis axis--x")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x).ticks(20));
 
-        container.append("g")
-                 .attr('class', 'grid x')
-                 .call(d3.axisBottom(x).ticks(20).tickSize(height).tickFormat(''));
+       container.append("g")
+                .attr('class', 'grid x')
+                .call(d3.axisBottom(x).ticks(20).tickSize(height).tickFormat(''));
 
-        let bars = container.selectAll(".bar")
-                            .data(data)
-                            .enter()
-                            .append("g")
-                            .attr('class', 'bar');
+       let bars = container.selectAll(".bar")
+                           .data(data)
+                           .enter()
+                           .append("g")
+                           .attr('class', 'bar');
 
-        let barRects = bars.append('rect')
-                           .attr("x", (d) => x(d[lowerProp]))
-                           .attr("y", (d, i) => y(i))
-                           .attr("width", (d) => x(d[upperProp]) - x(d[lowerProp]))
-                           .attr("height", y.bandwidth());
-        if (CONFIG.color !== 'none') {
-          barRects.attr('fill', (d) => d.color);
-        }
+       let barRects = bars.append('rect')
+                          .attr("x", (d) => x(d[lowerProp]))
+                          .attr("y", (d, i) => y(i))
+                          .attr("width", (d) => x(d[upperProp]) - x(d[lowerProp]))
+                          .attr("height", y.bandwidth());
+       switch (CONFIG.color) {
+         case 'model':
+           let colorMap = buildColorMap(data);
+           barRects.attr('fill', (d) => colorMap[d.model]);
+           break;
+         case 'cam':
+           barRects.attr('fill', (d) => d.color);
+           break;
+         case 'none':
+           break;
+         default:
+           throw new Error('unhandled coloring type: ' + CONFIG.color);
+       }
 
-        let labels = bars.append('text')
-                         .attr('x', (d) => x(d[upperProp]) + 5)
-                         .attr('y', (d, i) => y(i) + barHeight)
-                         .attr('dy', '-.35em')
-                         .text((d) => `${d.brand} ${d.model} ${d.size}`);
-      }
+       let labels = bars.append('text')
+                        .attr('x', (d) => x(d[upperProp]) + 5)
+                        .attr('y', (d, i) => y(i) + barHeight)
+                        .attr('dy', '-.35em')
+                        .text((d) => `${d.brand} ${d.model} ${d.size}`);
+     }
 
-      SORT_FNS = {
-        model: (d0, d1) => d0.model == d1.model ? 0 : (d0.model < d1.model ? -1 : 1),
-        size: (d0, d1) => d0.lower - d1.lower
-      }
-      function combineSort(first, second) {
-        return (d0, d1) => {
-          let v = first(d0, d1);
-          return v === 0 ? second(d0, d1) : v;
-        }
-      }
+     SORT_FNS = {
+       model: (d0, d1) => d0.model == d1.model ? 0 : (d0.model < d1.model ? -1 : 1),
+       size: (d0, d1) => d0.lower - d1.lower
+     }
+     function combineSort(first, second) {
+       return (d0, d1) => {
+         let v = first(d0, d1);
+         return v === 0 ? second(d0, d1) : v;
+       }
+     }
 
-      function filterData(data) {
-        if (!CONFIG.filter) {
-          return data;
-        }
-        let f = CONFIG.filter.toLowerCase().trim();
-        return data.filter((d) => d.model.toLowerCase().includes(f) || d.brand.toLowerCase().includes(f));
-      }
+     function filterData(data) {
+       if (!CONFIG.filter) {
+         return data;
+       }
+       let f = CONFIG.filter.toLowerCase().trim();
+       return data.filter((d) => d.model.toLowerCase().includes(f) || d.brand.toLowerCase().includes(f));
+     }
 
-      function sortData(data) {
-        let sortFn;
-        switch (CONFIG.sortOn) {
-          case 'model':
-            sortFn = combineSort(SORT_FNS.model, SORT_FNS.size);
-            break;
-          case 'size':
-            sortFn = SORT_FNS.size;
-            break;
-          default:
-            throw new Error('unknown sort type: ' + CONFIG.sortOn);
-        }
-        data.sort(sortFn);
-      }
+     function sortData(data) {
+       let sortFn;
+       switch (CONFIG.sortOn) {
+         case 'model':
+           sortFn = combineSort(SORT_FNS.model, SORT_FNS.size);
+           break;
+         case 'size':
+           sortFn = SORT_FNS.size;
+           break;
+         default:
+           throw new Error('unknown sort type: ' + CONFIG.sortOn);
+       }
+       data.sort(sortFn);
+     }
 
-      bindEventHandlers();
-      loadData(rerender);
+     bindEventHandlers();
+     loadData(rerender);
     </script>
   </body>
 </html>
