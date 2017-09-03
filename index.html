@@ -20,6 +20,12 @@
   </head>
   <body>
     <h1>hi</h1>
+    <div class="controls">
+      <select id="sort-by">
+        <option value="size">Size</option>
+        <option value="model">Model</option>
+      </select>
+    </div>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
     <script>
@@ -38,6 +44,13 @@
       let NUMERIC_PROPS = ['weight', 'strength', 'lower', 'upper', 'range',
                            'usable_lower', 'usable_upper'];
       let DATA = null;
+
+      function bindEventHandlers() {
+        document.getElementById('sort-by').on('change', function(e) {
+          debugger;
+        });
+      }
+
 
       function loadData(cb) {
         d3.tsv("data.tsv", function(d) {
