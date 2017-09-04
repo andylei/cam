@@ -9,6 +9,20 @@
        fill: brown;
      }
 
+     .d3-tip {
+       background-color: rgba(255, 255, 255, 0.9);
+       border: 1px solid grey;
+       padding: 5px;
+       margin: 5px;
+     }
+     .hide-popover {
+       position: absolute;
+       top: 5px;
+       right: 5px;
+     }
+     .hide-popover > button {
+     }
+
      .grid.x path, .grid.x text {
        display: none;
      }
@@ -49,7 +63,7 @@
     </div>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/chroma-js/chroma.js"></script>
+    <script src="bower_components/d3-tip/index.js"></script>
     <script>
      let COLORS = ['#2a80b9', '#8f44ad', '#c1392b', '#f39c11', '#27ae61', '#2d3e50'];
      function prop(name) {
@@ -74,6 +88,13 @@
        filter: null,
        color: 'model'
      };
+
+     let toolTip = null;
+     window.closeToolTip = function() {
+       if (toolTip) {
+         toolTip.hide();
+       }
+     }
 
      function bindById(id, evt, handler) {
        document.getElementById(id).addEventListener(evt, handler);
@@ -127,6 +148,33 @@
        return colorMap;
      }
 
+     function decimalAdjust(type, value, exp) {
+       // If the exp is undefined or zero...
+       if (typeof exp === 'undefined' || +exp === 0) {
+         return Math[type](value);
+       }
+       value = +value;
+       exp = +exp;
+       // If the value is not a number or the exp is not an integer...
+       if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0)) {
+         return NaN;
+       }
+       // If the value is negative...
+       if (value < 0) {
+         return -decimalAdjust(type, -value, exp);
+       }
+       // Shift
+       value = value.toString().split('e');
+       value = Math[type](+(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp)));
+       // Shift back
+       value = value.toString().split('e');
+       return +(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp));
+     }
+
+     function round(v, digits) {
+       return decimalAdjust('round', v, digits);
+     }
+
      function rerender() {
        let data = filterData(DATA);
        sortData(data);
@@ -136,7 +184,16 @@
        let frameHeight = height + margin.top + margin.bottom + 2 * innerPadding;
        svg.attr('height', frameHeight + 'px');
 
-       console.log(100 / height);
+       toolTip = d3.tip().attr('class', 'd3-tip').direction('e').offset([24,0]).html((d) => {
+         let rows = [
+           `${d.brand} ${d.model} ${d.size} (${d.color})`,
+           `${d.lobes} lobes`,
+           `Max range: ${d.lower} - ${d.upper}mm`,
+           `Usable range: ${d.usable_lower} - ${d.usable_upper}mm`
+         ];
+         return '<span class="hide-popover"><button onclick="closeToolTip()">X</button></span>' + rows.join('<br>');
+       });
+
        let y = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1),
            x = d3.scaleLinear().rangeRound([0, width]);
        let upperProp, lowerProp;
@@ -152,6 +209,8 @@
        y.domain(d3.range(numRows));
 
        container.selectAll('g').remove();
+       container.call(toolTip);
+       document.getElementsByClassName('hide-popover')
 
        container.append("g")
                 .attr("class", "axis x bottom")
@@ -170,13 +229,14 @@
                            .data(data)
                            .enter()
                            .append("g")
-                           .attr('class', 'bar');
+                           .attr('class', 'bar')
 
        let barRects = bars.append('rect')
                           .attr("x", (d) => x(d[lowerProp]))
                           .attr("y", (d, i) => y(i) + innerPadding)
                           .attr("width", (d) => x(d[upperProp]) - x(d[lowerProp]))
-                          .attr("height", y.bandwidth());
+                          .attr("height", y.bandwidth())
+                          .on('mouseover', toolTip.show)
        switch (CONFIG.color) {
          case 'model':
            let colorMap = buildColorMap(data);
@@ -192,7 +252,7 @@
        }
 
        let labels = bars.append('text')
-                        .attr('x', (d) => x(d[upperProp]) + 5)
+                        .attr('x', (d) => x(d[upperProp]) + 5 + 5)
                         .attr('y', (d, i) => y(i) + barHeight + innerPadding)
                         .attr('dy', '-.35em')
                         .text((d) => `${d.brand} ${d.model} ${d.size}`);
@@ -235,7 +295,6 @@
      bindEventHandlers();
      loadData(rerender);
      /* TODO:
-        hover over
         checkbox filters
       */
     </script>
