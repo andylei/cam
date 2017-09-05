@@ -1,6 +1,10 @@
 <html>
   <head>
+    <meta charset="UTF-8">
     <style>
+     .hidden {
+       display: none;
+     }
      .bar {
        fill: steelblue;
      }
@@ -30,6 +34,7 @@
        stroke: #ebebeb;
      }
     </style>
+    <link rel="stylesheet" href="bower_components/tree-multiselect/dist/jquery.tree-multiselect.css">
   </head>
   <body>
     <h1>hi</h1>
@@ -57,13 +62,19 @@
         </select>
       </li>
       <li class="control">
-        <input id="control-filter"/>
-        <button id="control-filter-ok">Filter</button>
+        <button id="control-filter-open" >Choose cams...</button>
+        <button id="control-filter-apply" class="hidden" >Apply Filter</button>
+        <span id="control-filter-container" class="hidden" >
+          <select id="control-filter-select" multiple >
+          </select>
+        </span>
       </li>
     </div>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/d3-tip/index.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/tree-multiselect/dist/jquery.tree-multiselect.js"></script>
     <script>
      let COLORS = ['#2a80b9', '#8f44ad', '#c1392b', '#f39c11', '#27ae61', '#2d3e50'];
      function prop(name) {
@@ -86,6 +97,7 @@
        sortOn: 'model',
        expansion: 'max',
        filter: null,
+       filterItems: null,
        color: 'model'
      };
 
@@ -100,6 +112,13 @@
        document.getElementById(id).addEventListener(evt, handler);
      }
 
+     function toggleFilter() {
+       for (let sel of ['container', 'apply', 'open']) {
+         let selector = 'control-filter-' + sel;
+         document.getElementById(selector).classList.toggle('hidden');
+       }
+     }
+
      function bindEventHandlers() {
        bindById('sort-by', 'change', function(e) {
          CONFIG.sortOn = e.target.value;
@@ -109,14 +128,38 @@
          CONFIG.expansion = e.target.value;
          rerender();
        });
-       bindById('control-filter-ok', 'click', function(e) {
-         CONFIG.filter = document.getElementById('control-filter').value;
-         rerender();
-       });
        bindById('control-color', 'change', function(e) {
          CONFIG.color = e.target.value
          rerender();
        });
+       bindById('control-filter-open', 'click', function(e) {
+         toggleFilter();
+       });
+       bindById('control-filter-apply', 'click', function(e) {
+         toggleFilter();
+         let opts = document.getElementById('control-filter-select').selectedOptions;
+         let values = [];
+         for (let i = 0; i < opts.length; i++) {
+           values.push(Number(opts.item(i).value));
+         }
+         CONFIG.filterItems = values
+         rerender();
+       });
+     }
+
+     function setupFilters() {
+       let select = document.getElementById('control-filter-select');
+       for (let i = 0; i < DATA.length; i++) {
+         let row = DATA[i];
+         let opt = document.createElement('option');
+         opt.setAttribute('data-section', `${row.brand}/${row.model}`);
+         opt.setAttribute('value', i);
+         opt.textContent = `${row.size}`;
+         select.appendChild(opt);
+       }
+
+       let opts = { searchable: true, hideSidePanel: true, startCollapsed: true };
+       jQuery(select).treeMultiselect(opts);
      }
 
      function loadData(cb) {
@@ -213,9 +256,9 @@
        document.getElementsByClassName('hide-popover')
 
        container.append("g")
-                .attr("class", "axis x bottom")
-                .attr("transform", "translate(0," + (height + 2 * innerPadding) + ")")
-                .call(d3.axisBottom(x).ticks(20));
+               .attr("class", "axis x bottom")
+               .attr("transform", "translate(0," + (height + 2 * innerPadding) + ")")
+               .call(d3.axisBottom(x).ticks(20));
 
        container.append("g")
                 .attr("class", "axis x top")
@@ -270,11 +313,17 @@
      }
 
      function filterData(data) {
-       if (!CONFIG.filter) {
-         return data;
+       if (CONFIG.filter) {
+         let f = CONFIG.filter.toLowerCase().trim();
+         return data.filter((d) => d.model.toLowerCase().includes(f) || d.brand.toLowerCase().includes(f));
+       } else if (CONFIG.filterItems && CONFIG.filterItems.length) {
+         let items = [];
+         for (let i of CONFIG.filterItems) {
+           items.push(data[i]);
+         }
+         return items;
        }
-       let f = CONFIG.filter.toLowerCase().trim();
-       return data.filter((d) => d.model.toLowerCase().includes(f) || d.brand.toLowerCase().includes(f));
+       return data;
      }
 
      function sortData(data) {
@@ -293,9 +342,17 @@
      }
 
      bindEventHandlers();
-     loadData(rerender);
+     loadData(() => {
+       rerender();
+       setupFilters();
+     });
      /* TODO:
-        checkbox filters
+        make it look nice
+        filters
+        hover over
+        helper text
+        intro text
+        background
       */
     </script>
   </body>
