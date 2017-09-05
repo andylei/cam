@@ -322,8 +322,9 @@
            items.push(data[i]);
          }
          return items;
+       } else {
+         return data.map((x) => x);
        }
-       return data;
      }
 
      function sortData(data) {
