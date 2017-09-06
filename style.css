@@ -1,0 +1,172 @@
+.hidden {
+  display: none;
+}
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+body {
+  margin: 0;
+  font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+}
+
+header {
+  width: 100%;
+  height: 64px;
+  background-color: #4285f4;
+  color: white;
+  font-size: 18px;
+}
+
+header > .title {
+  display: inline-block;
+  line-height: 64px;
+  margin-left: 16px;
+  border-right: 1px solid #5b92ec;
+  padding-right: 16px;
+  margin-right: 16px;
+}
+
+header:after {
+  content: "";
+  width: 100%;
+  height: 1px;
+  margin-top: 63px;
+  display: block;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  box-shadow: 0px 0px 8px 2px #555;
+}
+
+header .control {
+  display: inline-block;
+}
+
+header .control button {
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+header .control button.dropdown:after {
+  content: " ▾";
+}
+
+#control-filter-container {
+  z-index: 20;
+  position: relative;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0px 2px 10px 0 grey;
+  top: 8px;
+  padding: 8px 16px;
+  color: black;
+  font-size: 14px;
+}
+
+#control-filter-container > button {
+  height: 48px;
+  line-height: 48px;
+}
+
+.control .tree-multiselect {
+  border: 0;
+}
+
+.control .tree-multiselect > .selections {
+  padding: 0;
+}
+
+.control .tree-multiselect > .selections input[class="search"] {
+  height: 28px;
+  font-size: inherit;
+  border: 0;
+  background-color: #eee;
+  width: auto;
+}
+
+.control .tree-multiselect > .selections .auxiliary {
+  border-radius: 2px;
+  border: 0;
+  background-color: #eee;
+  height: 28px;
+  margin-bottom: 20px;
+}
+
+.control .tree-multiselect > .selections .auxiliary:before {
+  content: "⚲";
+  transform: rotate(-45deg);
+  display: inline-block;
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+.control .tree-multiselect .section {
+  font-size: inherit;
+  color: black;
+}
+
+.control .tree-multiselect .title {
+  background-color: inherit;
+  color: inherit;
+}
+
+.control .tree-multiselect .title,
+.control .tree-multiselect .item {
+  margin-bottom: 6px;
+}
+
+.control .tree-multiselect .section.collapsed > div.title span.collapse-section:after {
+  content: "▸";
+}
+
+.control .tree-multiselect div.title > span.collapse-section:after {
+  content: "▾";
+}
+
+.controls {
+  list-style: none;
+  padding-left: 0;
+}
+
+li.control {
+  display: inline-block;
+  margin-right: 20px;
+  padding: 6px 12px;
+  border: 1px solid gainsboro;
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.d3-tip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid grey;
+  padding: 5px;
+  margin: 5px;
+}
+.hide-popover {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.hide-popover > button {
+}
+
+.axis > .label {
+  fill: black;
+}
+
+.grid.x path, .grid.x text {
+  display: none;
+}
+.grid.x line {
+  stroke: #ebebeb;
+}

@@ -1,77 +1,43 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <style>
-     .hidden {
-       display: none;
-     }
-     .bar {
-       fill: steelblue;
-     }
-
-     .bar:hover {
-       fill: brown;
-     }
-
-     .d3-tip {
-       background-color: rgba(255, 255, 255, 0.9);
-       border: 1px solid grey;
-       padding: 5px;
-       margin: 5px;
-     }
-     .hide-popover {
-       position: absolute;
-       top: 5px;
-       right: 5px;
-     }
-     .hide-popover > button {
-     }
-
-     .axis > .label {
-       fill: black;
-     }
-
-     .grid.x path, .grid.x text {
-       display: none;
-     }
-     .grid.x line {
-       stroke: #ebebeb;
-     }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bower_components/tree-multiselect/dist/jquery.tree-multiselect.css">
   </head>
   <body>
-    <h1>hi</h1>
+    <header>
+      <span class="title">Camparison</span>
+      <span class="control">
+        <button id="control-filter-open" class="dropdown" >Filter</button>
+        <div id="control-filter-container" class="hidden" >
+          <button id="control-filter-apply"" >Apply Filter</button>
+          <select id="control-filter-select" multiple >
+          </select>
+        </div>
+      </span>
+    </header>
     <ul class="controls">
       <li class="control">
-        <label for="sort-by">Sort by</label>
+        <label for="sort-by">Sort by:</label>
         <select id="sort-by">
           <option value="model">Model</option>
           <option value="size">Size</option>
         </select>
       </li>
       <li class="control">
-        <label for="expansion">Expansion</label>
+        <label for="expansion">Expansion:</label>
         <select id="expansion">
           <option value="max">Max</option>
           <option value="usable">Usable</option>
         </select>
       </li>
       <li class="control">
-        <label for="control-color">Color using</label>
+        <label for="control-color">Color using:</label>
         <select id="control-color">
           <option value="model">Model</option>
           <option value="cam">Cam color</option>
           <option value="none">None</option>
         </select>
-      </li>
-      <li class="control">
-        <button id="control-filter-open" >Choose cams...</button>
-        <button id="control-filter-apply" class="hidden" >Apply Filter</button>
-        <span id="control-filter-container" class="hidden" >
-          <select id="control-filter-select" multiple >
-          </select>
-        </span>
       </li>
     </ul>
     <svg width="960" height="500"></svg>
@@ -117,7 +83,7 @@
      }
 
      function toggleFilter() {
-       for (let sel of ['container', 'apply', 'open']) {
+       for (let sel of ['container', 'open']) {
          let selector = 'control-filter-' + sel;
          document.getElementById(selector).classList.toggle('hidden');
        }
