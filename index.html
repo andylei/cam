@@ -7,39 +7,37 @@
   <body>
     <header>
       <span class="title">Camparison</span>
-      <span class="control">
+      <div class="control">
         <button id="control-filter-open" class="dropdown" >Filter</button>
         <div id="control-filter-container" class="hidden" >
           <button id="control-filter-apply"" >Apply Filter</button>
           <select id="control-filter-select" multiple >
           </select>
         </div>
-      </span>
-    </header>
-    <ul class="controls">
-      <li class="control">
+      </div>
+      <div class="control select-container">
         <label for="sort-by">Sort by:</label>
         <select id="sort-by">
           <option value="model">Model</option>
           <option value="size">Size</option>
         </select>
-      </li>
-      <li class="control">
+      </div>
+      <div class="control select-container">
         <label for="expansion">Expansion:</label>
         <select id="expansion">
           <option value="max">Max</option>
           <option value="usable">Usable</option>
         </select>
-      </li>
-      <li class="control">
-        <label for="control-color">Color using:</label>
+      </div>
+      <div class="control select-container">
+        <label for="control-color">Color by:</label>
         <select id="control-color">
           <option value="model">Model</option>
           <option value="cam">Cam color</option>
           <option value="none">None</option>
         </select>
-      </li>
-    </ul>
+      </div>
+    </header>
     <svg width="960" height="500"></svg>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/d3-tip/index.js"></script>
@@ -331,9 +329,10 @@
        setupFilters();
      });
      /* TODO:
+        control expansion bug
+        make select arrow clickable
         make it look nice
           rightmost label
-          filters
           hover over
           helper text
           intro text

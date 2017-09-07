@@ -15,6 +15,7 @@ body {
 }
 
 header {
+  min-width: 800px;
   width: 100%;
   height: 64px;
   background-color: #4285f4;
@@ -29,6 +30,7 @@ header > .title {
   border-right: 1px solid #5b92ec;
   padding-right: 16px;
   margin-right: 16px;
+  font-weight: bold;
 }
 
 header:after {
@@ -44,6 +46,8 @@ header:after {
 }
 
 header .control {
+  color: #c2d4f1;
+  font-size: 16px;
   display: inline-block;
 }
 
@@ -77,6 +81,29 @@ header .control button.dropdown:after {
   line-height: 48px;
 }
 
+.control {
+  margin-right: 24px;
+}
+
+.control > select {
+  background-color: transparent;
+  padding: 4px 0;
+  font-size: inherit;
+  border: none;
+  border-bottom: 1px solid #c2d4f1;
+  border-radius: 0;
+  appearance: none;
+  color: inherit;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.control.select-container:after {
+  content: "▾";
+  position: relative;
+  right: 0;
+}
+
 .control .tree-multiselect {
   border: 0;
 }
@@ -86,7 +113,7 @@ header .control button.dropdown:after {
 }
 
 .control .tree-multiselect > .selections input[class="search"] {
-  height: 28px;
+  height: 38px;
   font-size: inherit;
   border: 0;
   background-color: #eee;
@@ -97,8 +124,8 @@ header .control button.dropdown:after {
   border-radius: 2px;
   border: 0;
   background-color: #eee;
-  height: 28px;
-  margin-bottom: 20px;
+  height: 38px;
+  margin-bottom: 10px;
 }
 
 .control .tree-multiselect > .selections .auxiliary:before {
@@ -115,8 +142,19 @@ header .control button.dropdown:after {
 }
 
 .control .tree-multiselect .title {
+  padding-left: 0;
   background-color: inherit;
   color: inherit;
+}
+
+.control .tree-multiselect .section .item {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 14px;
+}
+
+.control .tree-multiselect .title .collapse-section {
+  margin-left: 0;
 }
 
 .control .tree-multiselect .title,
