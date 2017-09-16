@@ -196,17 +196,28 @@
          toolTip.hide();
        }
        const closeBtn = '<span class="hide-popover"><button onclick="closeToolTip()">X</button></span>';
-       toolTip = d3.tip().attr('class', 'd3-tip').direction('e').offset([39,0]).html((d) => {
-         let rows = [
-           `${d.brand} ${d.model} ${d.size} (${d.color})`,
-           `${d.lobes} lobes`,
-           `${d.weight} g`,
-           `${d.strength} kN`,
-           `Max range: ${d.lower} - ${d.upper}mm`,
-           `Usable range: ${d.usable_lower} - ${d.usable_upper}mm`
-         ].map((row) => `<p>${row}</p>`);
-         return rows.join('') + closeBtn;
-       });
+       toolTip = d3
+         .tip()
+         .attr('class', 'd3-tip')
+         .direction(function() {
+           let x = Number(this.attributes.x.value);
+           let w = Number(this.attributes.width.value);
+           return x + w > 700 ? 'w' : 'e';
+         })
+         .offset(function() {
+           return [39,0];
+         })
+         .html((d) => {
+           let rows = [
+             `${d.brand} ${d.model} ${d.size} (${d.color})`,
+             `${d.lobes} lobes`,
+             `${d.weight} g`,
+             `${d.strength} kN`,
+             `Max range: ${d.lower} - ${d.upper} mm`,
+             `Usable range: ${d.usable_lower} - ${d.usable_upper} mm`
+           ].map((row) => `<p>${row}</p>`);
+           return rows.join('') + closeBtn;
+         });
 
        let y = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1),
            x = d3.scaleLinear().rangeRound([0, width]);
@@ -338,8 +349,7 @@
      });
      /* TODO:
         make it look nice
-          rightmost hover over
-          hover over text
+          hover over triggered on label
           helper text
           intro text
           background
