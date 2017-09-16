@@ -57,7 +57,7 @@
      let container = svg.append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-     let NUMERIC_PROPS = ['weight', 'strength', 'lower', 'upper', 'range',
+     let NUMERIC_PROPS = ['weight', 'lower', 'upper', 'range',
                           'usable_lower', 'usable_upper'];
      let DATA = null;
 
@@ -195,14 +195,17 @@
        if (toolTip && toolTip.hide) {
          toolTip.hide();
        }
-       toolTip = d3.tip().attr('class', 'd3-tip').direction('e').offset([24,0]).html((d) => {
+       const closeBtn = '<span class="hide-popover"><button onclick="closeToolTip()">X</button></span>';
+       toolTip = d3.tip().attr('class', 'd3-tip').direction('e').offset([39,0]).html((d) => {
          let rows = [
            `${d.brand} ${d.model} ${d.size} (${d.color})`,
            `${d.lobes} lobes`,
+           `${d.weight} g`,
+           `${d.strength} kN`,
            `Max range: ${d.lower} - ${d.upper}mm`,
            `Usable range: ${d.usable_lower} - ${d.usable_upper}mm`
-         ];
-         return '<span class="hide-popover"><button onclick="closeToolTip()">X</button></span>' + rows.join('<br>');
+         ].map((row) => `<p>${row}</p>`);
+         return rows.join('') + closeBtn;
        });
 
        let y = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1),
@@ -335,8 +338,8 @@
      });
      /* TODO:
         make it look nice
-          hover over
           rightmost hover over
+          hover over text
           helper text
           intro text
           background

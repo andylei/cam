@@ -191,9 +191,17 @@ li.control {
 
 .d3-tip {
   background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid grey;
+  border: 1px solid #ccc;
+  border-radius: 2px;
   padding: 5px;
   margin: 5px;
+}
+.d3-tip p {
+  margin: 0;
+  padding: 0;
+}
+.d3-tip p:nth-child(1) {
+  padding-right: 28px;
 }
 .hide-popover {
   position: absolute;
