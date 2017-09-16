@@ -81,10 +81,7 @@
      }
 
      function toggleFilter() {
-       for (let sel of ['container', 'open']) {
-         let selector = 'control-filter-' + sel;
-         document.getElementById(selector).classList.toggle('hidden');
-       }
+       document.getElementById('control-filter-container').classList.toggle('hidden');
      }
 
      function bindEventHandlers() {
@@ -329,9 +326,8 @@
        setupFilters();
      });
      /* TODO:
-        control expansion bug
-        make select arrow clickable
         make it look nice
+          apply filter more clickable
           rightmost label
           hover over
           helper text
