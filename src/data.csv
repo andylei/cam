@@ -1,0 +1,117 @@
+brand,model,size,color,lobes,weight,strength,lower,upper,range,usable_lower,usable_upper
+Fixe Hardware,Alien LITE,1/3,black,4,46,5,8,14,6,8.6,11.6
+Fixe Hardware,Alien LITE,3/8,blue,4,48,6,10,17,7,10.7,14.2
+Fixe Hardware,Alien LITE,1/2,green,4,52,7,13,22,9,13.9,18.4
+Fixe Hardware,Alien LITE,3/4,yellow,4,58,10,15,25,10,16,21
+Fixe Hardware,Alien LITE,7/8,grey,4,59,10,17,30,13,18.3,24.8
+Fixe Hardware,Alien LITE,1,red,4,61,10,20,33,13,21.3,27.8
+Totem,Basic,0.50,blue,4,56,5,11.2,17.4,6.2,11.82,14.92
+Totem,Basic,0.65,green,4,60,7,13.6,21.4,7.8,14.38,18.28
+Totem,Basic,0.75,yellow,4,68,9,16.6,26.1,9.5,17.55,22.3
+Totem,Basic,0.95,red,4,72,11,19.9,31.6,11.7,21.07,26.92
+Totem,Totem,0.65,blue,4,75,8,13.8,22.5,8.7,14.67,19.02
+Totem,Totem,0.80,yellow,4,83,9,17,27.7,10.7,18.07,23.42
+Totem,Totem,1.00,purple,4,95,10,20.9,34.2,13.3,22.23,28.88
+Totem,Totem,1.25,green,4,109,13,25.7,42.3,16.6,27.36,35.66
+Totem,Totem,1.50,red,4,132.5,13,31.6,52.2,20.6,33.66,43.96
+Black Diamond,Camalot C3,000,gray,3,55,4,7.8,12.9,5.1,8.31,10.86
+Black Diamond,Camalot C3,00,purple,3,57,6,9,13.7,4.7,9.47,11.82
+Black Diamond,Camalot C3,0,green,3,59,7,10.7,15.8,5.1,11.21,13.76
+Black Diamond,Camalot C3,1,red,3,62,10,12,18.8,6.8,12.68,16.08
+Black Diamond,Camalot C3,2,yellow,3,66,10,14.2,22.6,8.4,15.04,19.24
+Black Diamond,X4,0.1,red,4,51,5,8.4,13.8,5.4,8.94,11.64
+Black Diamond,X4,0.2,yellow,4,54,6,9.9,16.5,6.6,10.56,13.86
+Black Diamond,X4,0.3,blue,4,75,8,12.4,21.2,8.8,13.28,17.68
+Black Diamond,X4,0.4,gray,4,82,10,15.5,26.6,11.1,16.61,22.16
+Black Diamond,X4,0.5,purple,4,91,10,19.8,33.7,13.9,21.19,28.14
+Black Diamond,X4,0.75,green,4,112,10,24,41.2,17.2,25.72,34.32
+Black Diamond,Camalot C4,0.3,blue,4,75,8,13.8,23.4,9.6,14.76,19.56
+Black Diamond,Camalot C4,0.4,gray,4,83,10,15.5,26.7,11.2,16.62,22.22
+Black Diamond,Camalot C4,0.5,purple,4,99,12,19.6,33.5,13.9,20.99,27.94
+Black Diamond,Camalot C4,0.75,green,4,119,14,23.9,41.2,17.3,25.63,34.28
+Black Diamond,Camalot C4,1,red,4,136,14,30.2,52.1,21.9,32.39,43.34
+Black Diamond,Camalot C4,2,yellow,4,155,14,37.2,64.9,27.7,39.97,53.82
+Black Diamond,Camalot C4,3,blue,4,201,14,50.7,87.9,37.2,54.42,73.02
+Black Diamond,Camalot C4,4,gray,4,289,14,66,114.7,48.7,70.87,95.22
+Black Diamond,Camalot C4,5,purple,4,380,14,85.4,148.5,63.1,91.71,123.26
+Black Diamond,Camalot C4,6,green,4,557,14,114.1,195,80.9,122.19,162.64
+Omega Pacific,Link,0.5,purple,4,95,8,13.5,35,21.5,15.65,26.4
+Omega Pacific,Link,0.75,green,4,113,10,17.8,44.5,26.7,20.47,33.82
+Omega Pacific,Link,1,red,4,176,14,21.1,53.3,32.2,24.32,40.42
+Omega Pacific,Link,2,yellow,4,207,14,25.4,64,38.6,29.26,48.56
+Wild Country,Zero,1,purple,4,25,3,5.5,7.8,2.3,5.73,6.88
+Wild Country,Zero,2,green,4,32,4,7,9.8,2.8,7.28,8.68
+Wild Country,Zero,3,silver,4,44,6,8.5,12.2,3.7,8.87,10.72
+Wild Country,Zero,4,gold,4,50,6,10.3,16,5.7,10.87,13.72
+Wild Country,Zero,5,blue,4,66,9,13,19,6,13.6,16.6
+Wild Country,Zero,6,red,4,70,9,17,24,7,17.7,21.2
+Wild Country,Helium,0.0,blue,4,87,12,14,22.54,8.54,14.854,19.124
+Wild Country,Helium,0.5,red,4,91,12,16.56,26.66,10.1,17.57,22.62
+Wild Country,Helium,1.0,gold,4,95,12,19.71,31.73,12.02,20.912,26.922
+Wild Country,Helium,1.5,silver,4,104,12,23.59,37.98,14.39,25.029,32.224
+Wild Country,Helium,2.0,red,4,109,12,28.41,45.73,17.32,30.142,38.802
+Wild Country,Helium,2.5,gold,4,117,12,34.4,55.39,20.99,36.499,46.994
+Wild Country,Helium,3.0,purple,4,145,12,41.9,67.47,25.57,44.457,57.242
+Wild Country,Helium,3.5,blue,4,171,12,51.34,82.65,31.31,54.471,70.126
+Wild Country,Helium,4.0,silver,4,208,12,63.25,101.83,38.58,67.108,86.398
+Metolius,Ultralight TCU,00,gray,3,39.69,5,8.64,11.94,3.3,8.97,10.62
+Metolius,Ultralight TCU,0,purple,3,42.52,5,9.91,14.99,5.08,10.418,12.958
+Metolius,Ultralight TCU,1,blue,3,51.03,8,12.45,18.03,5.58,13.008,15.798
+Metolius,Ultralight TCU,2,yellow,3,56.7,10,15.75,22.6,6.85,16.435,19.86
+Metolius,Ultralight TCU,3,orange,3,59.53,10,18.8,26.42,7.62,19.562,23.372
+Metolius,Ultralight TCU,4,red,3,68.04,10,23.62,33.53,9.91,24.611,29.566
+Metolius,Ultralight Power,00,gray,4,45.36,5,8.64,11.94,3.3,8.97,10.62
+Metolius,Ultralight Power,0,purple,4,48.19,5,9.91,14.99,5.08,10.418,12.958
+Metolius,Ultralight Power,1,blue,4,53.86,8,12.45,18.03,5.58,13.008,15.798
+Metolius,Ultralight Power,2,yellow,4,65.2,10,15.75,22.6,6.85,16.435,19.86
+Metolius,Ultralight Power,3,orange,4,68.04,10,18.8,26.42,7.62,19.562,23.372
+Metolius,Ultralight Power,4,red,4,76.54,10,23.62,33.53,9.91,24.611,29.566
+Metolius,Ultralight Power,5,black,4,85.05,10,27.69,39.62,11.93,28.883,34.848
+Metolius,Ultralight Power,6,green,4,99.22,10,32.51,48.01,15.5,34.06,41.81
+Metolius,Ultralight Power,7,light blue,4,127.57,10,39.88,57.4,17.52,41.632,50.392
+Metolius,Ultralight Power,8,light purple,4,150.25,10,48.51,71.37,22.86,50.796,62.226
+Metolius,Master,00,gray,4,62.37,5,8.64,11.94,3.3,8.97,10.62
+Metolius,Master,0,purple,4,65.2,5,9.91,14.99,5.08,10.418,12.958
+Metolius,Master,1,blue,4,68.04,8,12.45,18.03,5.58,13.008,15.798
+Metolius,Master,2,yellow,4,70.87,10,15.75,22.6,6.85,16.435,19.86
+Metolius,Master,3,orange,4,82.21,10,18.8,26.42,7.62,19.562,23.372
+Metolius,Master,4,red,4,90.72,10,23.62,33.53,9.91,24.611,29.566
+Metolius,Master,5,black,4,99.22,10,27.69,39.62,11.93,28.883,34.848
+Metolius,Master,6,green,4,110.56,10,32.51,48.01,15.5,34.06,41.81
+Metolius,Supercam,small,grey,4,184.27,12,41.91,63.5,21.59,44.069,54.864
+Metolius,Supercam,medium,maroon,4,255.15,12,52.58,91.44,38.86,56.466,75.896
+Metolius,Supercam,large,dark blue,4,311.84,12,66.55,118.62,52.07,71.757,97.792
+DMM,Dragon,00,blue,4,75,9,13.6,22.5,8.9,14.49,18.94
+DMM,Dragon,0,silver,4,85,12,16,26.7,10.7,17.07,22.42
+DMM,Dragon,1,purple,4,97,14,20,33,13,21.3,27.8
+DMM,Dragon,2,green,4,106,14,24,41,17,25.7,34.2
+DMM,Dragon,3,red,4,119,14,29,50,21,31.1,41.6
+DMM,Dragon,4,gold,4,148,14,38,64,26,40.6,53.6
+DMM,Dragon,5,blue,4,195,14,50,85,35,53.5,71
+DMM,Dragon,6,silver,4,276,14,68,114,46,72.6,95.6
+DMM,3CU,0,blue,3,74,12/14,13,19,6,13.6,16.6
+DMM,3CU,0.5,red,3,80,12/14,17,24,7,17.7,21.2
+DMM,3CU,1,gold,3,84,12/14,19,29,10,20,25
+DMM,3CU,1.25,purple,3,87,12/14,21,33,12,22.2,28.2
+DMM,3CU,1.5,silver,3,88,12/14,23,35,12,24.2,30.2
+DMM,3CU,1.75,green,3,90,12/14,25,41,16,26.6,34.6
+DMM,4CU,0,blue,4,75,12/14,13,19,6,13.6,16.6
+DMM,4CU,0.5,red,4,80,12/14,17,24,7,17.7,21.2
+DMM,4CU,1,gold,4,93,12/14,19,29,10,20,25
+DMM,4CU,1.25,purple,4,96,12/14,21,33,12,22.2,28.2
+DMM,4CU,1.5,silver,4,97,12/14,23,35,12,24.2,30.2
+DMM,4CU,1.75,green,4,99,12/14,25,41,16,26.6,34.6
+DMM,4CU,2,red,4,110,12/14,29,44,15,30.5,38
+DMM,4CU,2.5,gold,4,123,12/14,33,55,22,35.2,46.2
+DMM,4CU,3,purple,4,151,12/14,43,66,23,45.3,56.8
+DMM,4CU,3.5,blue,4,185,12/14,51,82,31,54.1,69.6
+DMM,4CU,4,silver,4,224,12/14,64,100,36,67.6,85.6
+DMM,Demon,0,blue,4,84,14,13,19,6,13.6,16.6
+DMM,Demon,0.5,red,4,90,14,17,24,7,17.7,21.2
+DMM,Demon,1,gold,4,97,14,19,29,10,20,25
+DMM,Demon,1.5,silver,4,101,14,23,35,12,24.2,30.2
+DMM,Demon,2,red,4,113,14,29,44,15,30.5,38
+DMM,Demon,2.5,gold,4,127,14,33,55,22,35.2,46.2
+DMM,Demon,3,purple,4,154,14,43,66,23,45.3,56.8
+DMM,Demon,3.5,blue,4,181,14,51,82,31,54.1,69.6
+DMM,Demon,4,silver,4,221,14,64,100,36,67.6,85.6

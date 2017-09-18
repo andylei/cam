@@ -1,0 +1,23 @@
+{
+  "name": "cam",
+  "dependencies": {
+    "d3": "^4.10.2",
+    "d3-tip": "^0.7.1",
+    "jquery": "^3.2.1",
+    "tree-multiselect": "^2.3.1"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.16",
+    "css-loader": "^0.28.7",
+    "csv-loader": "^2.1.1",
+    "html-webpack-plugin": "^2.30.1",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.6.0",
+    "webpack-dev-server": "^2.8.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --open",
+    "watch": "webpack --watch"
+  }
+}
