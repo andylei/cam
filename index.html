@@ -272,34 +272,38 @@
        container.call(toolTip);
        document.getElementsByClassName('hide-popover')
 
-       container.append("g")
-               .attr("class", "axis x bottom")
-               .attr("transform", "translate(0," + (height + 2 * innerPadding) + ")")
-               .call(d3.axisBottom(x).ticks(20))
-               .append('text')
-               .attr('class', 'label')
-               .attr("y", "30px")
-               .style("text-anchor", "start")
-               .text(`Expansion (${unit})`);
+       container
+         .append("g")
+         .attr("class", "axis x bottom")
+         .attr("transform", "translate(0," + (height + 2 * innerPadding) + ")")
+         .call(d3.axisBottom(x).ticks(20))
+         .append('text')
+         .attr('class', 'label')
+         .attr("y", "30px")
+         .style("text-anchor", "start")
+         .text(`Expansion (${unit})`);
 
-       container.append("g")
-                .attr("class", "axis x top")
-                .call(d3.axisTop(x).ticks(20))
-                .append('text')
-                .attr('class', 'label')
-                .attr("y", "-25px")
-                .style("text-anchor", "start")
-                .text(`Expansion (${unit})`);
+       container
+         .append("g")
+         .attr("class", "axis x top")
+         .call(d3.axisTop(x).ticks(20))
+         .append('text')
+         .attr('class', 'label')
+         .attr("y", "-25px")
+         .style("text-anchor", "start")
+         .text(`Expansion (${unit})`);
 
-       container.append("g")
-                .attr('class', 'grid x')
-                .call(d3.axisBottom(x).ticks(20).tickSize(height + 2 * innerPadding).tickFormat(''));
+       container
+         .append("g")
+         .attr('class', 'grid x')
+         .call(d3.axisBottom(x).ticks(20).tickSize(height + 2 * innerPadding).tickFormat(''));
 
-       let bars = container.selectAll(".bar")
-                           .data(data)
-                           .enter()
-                           .append("g")
-                           .attr('class', 'bar');
+       let bars = container
+         .selectAll(".bar")
+         .data(data)
+         .enter()
+         .append("g")
+         .attr('class', 'bar');
 
        let barRects = bars
          .append('rect')
