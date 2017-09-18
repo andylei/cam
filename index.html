@@ -235,7 +235,8 @@
          .attr('class', 'd3-tip')
          .direction(function() {
            let x = Number(this.attributes.x.value);
-           let w = Number(this.attributes.width.value);
+           let widthAttr = this.attributes.width;
+           let w = widthAttr ? Number(widthAttr.value) : 0;
            return x + w > 700 ? 'w' : 'e';
          })
          .offset(function() {
@@ -300,12 +301,15 @@
                            .append("g")
                            .attr('class', 'bar');
 
-       let barRects = bars.append('rect')
-                          .attr("x", (d) => x(units(d[lowerProp])))
-                          .attr("y", (d, i) => y(i) + innerPadding)
-                          .attr("width", (d) => x(units(d[upperProp])) - x(units(d[lowerProp])))
-                          .attr("height", y.bandwidth())
-                          .on('mouseover', toolTip.show);
+       let barRects = bars
+         .append('rect')
+         .attr("x", (d) => x(units(d[lowerProp])))
+         .attr("y", (d, i) => y(i) + innerPadding)
+         .attr("width", (d) => x(units(d[upperProp])) - x(units(d[lowerProp])))
+         .attr("height", y.bandwidth())
+         .on('mouseover', function(d) {
+           toolTip.show.apply(this, [d, this]);
+         });
        switch (CONFIG.color) {
          case 'model':
            let colorMap = buildColorMap(data);
@@ -331,6 +335,10 @@
          .attr('fill', (d) => flipOrientation(d) ? 'white' : null)
          .attr('dx', (d) => flipOrientation(d) ? '-1em' : null)
          .text((d) => `${d.brand} ${d.model} ${d.size}`)
+         .on('mouseover', function(d) {
+           let context = this.previousSibling;
+           toolTip.show.apply(context, [d, context]);
+         });
      }
 
      const SORT_FNS = {
@@ -385,13 +393,6 @@
        rerender();
        setupFilters();
      });
-     /* TODO:
-        make it look nice
-          hover over triggered on label
-          intro text
-          imperial / metric
-          remove items thru hoverover
-      */
     </script>
   </body>
 </html>
