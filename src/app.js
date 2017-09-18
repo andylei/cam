@@ -7,6 +7,7 @@ const d3 = Object.assign({}, d3selection, d3scale, d3array, d3axis);
 d3.tip = d3Tip;
 
 import jQuery from 'jQuery';
+import 'tree-multiselect';
 
 import DATA from './data.csv';
 
