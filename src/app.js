@@ -8,6 +8,7 @@ d3.tip = d3Tip;
 
 import jQuery from 'jQuery';
 import 'tree-multiselect';
+import 'tree-multiselect/dist/jquery.tree-multiselect.css'
 
 import DATA from './data.csv';
 
