@@ -13,8 +13,7 @@ import DATA from './data.csv';
 
 import './style.css';
 
-
-let COLORS = ['#2a80b9', '#8f44ad', '#c1392b', '#f39c11', '#27ae61', '#2d3e50'];
+const COLORS = ['#2a80b9', '#8f44ad', '#c1392b', '#f39c11', '#27ae61', '#2d3e50'];
 function prop(name) {
   return (obj) => obj[name];
 }
