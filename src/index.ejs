@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107858277-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-107858277-1');
+    </script>
   </head>
   <body>
     <header>
@@ -13,7 +22,7 @@
           Choose which models and sizes to include.
         </div>
         <div id="control-filter-container" class="hidden" >
-          <button id="control-filter-apply"" >Apply Filter</button>
+          <button id="control-filter-apply" >Apply Filter</button>
           <select id="control-filter-select" multiple >
           </select>
         </div>
