@@ -46,6 +46,10 @@ window.closeToolTip = function() {
   }
 };
 
+function getFullName(d) {
+  return d.brand + d.model;
+}
+
 function bindById(id, evt, handler) {
   document.getElementById(id).addEventListener(evt, handler);
 }
@@ -111,16 +115,16 @@ function loadData(cb) {
 }
 
 function buildColorMap(data) {
-  let models = {};
+  let modelNames = {};
   for (let row of data) {
-    models[row.model] = true;
+    modelNames[getFullName(row)] = row.model;
   }
-  models = Object.keys(models);
-  models.sort();
+  let modelNameKeys = Object.keys(modelNames);
+  modelNameKeys.sort();
   let colorMap = {};
   let i = 0;
-  for (let model of models) {
-    colorMap[model] = COLORS[i];
+  for (let key of modelNameKeys) {
+    colorMap[modelNames[key]] = COLORS[i];
     i = (i + 1) % COLORS.length;
   }
   return colorMap;
@@ -296,7 +300,7 @@ function rerender() {
 }
 
 const SORT_FNS = {
-  model: (d0, d1) => d0.model == d1.model ? 0 : (d0.model < d1.model ? -1 : 1),
+  model: (d0, d1) => getFullName(d0).localeCompare(getFullName(d1)),
   size: (d0, d1) => d0.lower - d1.lower,
   weight: (d0, d1) => d0.weight - d1.weight
 };
