@@ -21,9 +21,9 @@ Totem,Totem,0.8,yellow,4,83,9,17,27.7,10.7,18.07,23.42
 Totem,Totem,1,purple,4,95,10,20.9,34.2,13.3,22.23,28.88
 Totem,Totem,1.25,green,4,109,13,25.7,42.3,16.6,27.36,35.66
 Totem,Totem,1.5,red,4,132.5,13,31.6,52.2,20.6,33.66,43.96
-Totem,totem,1.8,orange,4,144,13,39.7,64.2,24.5,42.15,54.4
-Black Diamond,Camalot C3,0,gray,3,55,4,7.8,12.9,5.1,8.31,10.86
-Black Diamond,Camalot C3,0,purple,3,57,6,9,13.7,4.7,9.47,11.82
+Totem,Totem,1.8,orange,4,144,13,39.7,64.2,24.5,42.15,54.4
+Black Diamond,Camalot C3,000,gray,3,55,4,7.8,12.9,5.1,8.31,10.86
+Black Diamond,Camalot C3,00,purple,3,57,6,9,13.7,4.7,9.47,11.82
 Black Diamond,Camalot C3,0,green,3,59,7,10.7,15.8,5.1,11.21,13.76
 Black Diamond,Camalot C3,1,red,3,62,10,12,18.8,6.8,12.68,16.08
 Black Diamond,Camalot C3,2,yellow,3,66,10,14.2,22.6,8.4,15.04,19.24
@@ -68,6 +68,8 @@ Wild Country,Friend,1,red,4,123,12,31.7,53.6,21.9,33.89,44.84
 Wild Country,Friend,2,yellow,4,142,12,41.5,69.3,27.8,44.28,58.18
 Wild Country,Friend,3,blue,4,192,12,52.7,88,35.3,56.23,73.88
 Wild Country,Friend,4,silver,4,260,12,66.8,112.1,45.3,71.33,93.98
+Wild Country,Tech Friend,5,red,4,339,14,84,138,54,89.4,116.4
+Wild Country,Tech Friend,6,green,4,533,14,118,194,76,125.6,163.6
 Metolius,Ultralight TCU,00,gray,3,39.69,5,8.64,11.94,3.3,8.97,10.62
 Metolius,Ultralight TCU,0,purple,3,42.52,5,9.91,14.99,5.08,10.418,12.958
 Metolius,Ultralight TCU,1,blue,3,51.03,8,12.45,18.03,5.58,13.008,15.798
@@ -139,3 +141,32 @@ DMM,Demon,2.5,gold,4,127,14,33,55,22,35.2,46.2
 DMM,Demon,3,purple,4,154,14,43,66,23,45.3,56.8
 DMM,Demon,3.5,blue,4,181,14,51,82,31,54.1,69.6
 DMM,Demon,4,silver,4,221,14,64,100,36,67.6,85.6
+Rock Empire,Axel,.25,blue,4,98,6,14,22,8,14.8,18.8
+Rock Empire,Axel,.5,green,4,100,7,16,27,11,17.1,22.6
+Rock Empire,Axel,1,gray,4,110,8,18,31,13,19.3,25.8
+Rock Empire,Axel,2,purple,4,116,8,22,38,16,23.6,31.6
+Rock Empire,Axel,3,black,4,134,9,27,47,20,29,39
+Rock Empire,Axel,4,red,4,164,9,35,60,25,37.5,50
+Rock Empire,Axel,5,yellow,4,212,14,46,80,34,49.4,66.4
+Rock Empire,Axel,6,light blue,4,254,14,64,108,44,68.4,90.4
+Rock Empire,Comet,.25,green,4,68,7,12,16.5,4.5,12.45,14.7
+Rock Empire,Comet,.5,blue,4,72,9,14,20,6,14.6,17.6
+Rock Empire,Comet,.75,red,4,76,10,17,24,7,17.7,21.2
+Rock Empire,Comet,1,gray,4,82,11,18.5,30.5,12,19.7,25.7
+Rock Empire,Comet,2,yellow,4,96,11,21,35,14,22.4,29.4
+Rock Empire,Comet,3,light blue,4,102,12,26,44.5,18.5,27.85,37.1
+Rock Empire,Comet,4,red,4,138,12,33,55,22,35.2,46.2
+Rock Empire,Comet,5,black,4,162,12,43,70,27,45.7,59.2
+Rock Empire,Comet,6,yellow,4,214,12,55,89,34,58.4,75.4
+Rock Empire,Comet,7,brown,4,258,12,72,113,41,76.1,96.6
+Rock Empire,Comet,8,blue,4,316,12,90,140,50,95,120
+Rock Empire,Flexor,.25,green,4,78,7,12,16,4,12.4,14.4
+Rock Empire,Flexor,.5,blue,4,84,9,14,20,6,14.6,17.6
+Rock Empire,Flexor,.75,red,4,86,10,16,23,7,16.7,20.2
+Rock Empire,Flexor,1,gray,4,100,11,19,28,9,19.9,24.4
+Rock Empire,Flexor,2,yellow,4,108,11,22,34,12,23.2,29.2
+Rock Empire,Flexor,3,light blue,4,118,11,27,44,17,28.7,37.2
+Rock Empire,Flexor,4,blue,4,154,12,33,53,20,35,45
+Rock Empire,Flexor,5,black,4,176,12,43,68,25,45.5,58
+Rock Empire,Flexor,6,yellow,4,224,12,55,88,33,58.3,74.8
+Rock Empire,Flexor,7,brown,4,280,12,70,110,40,74,94
