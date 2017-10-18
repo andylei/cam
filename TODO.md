@@ -1,8 +1,8 @@
 # TODO
 
-- [ ] increase size of config panel
-- [ ] view csv
-- [ ] log scale
+- [x] increase size of config panel
+- [x] view csv
+- [x] log scale
 - [ ] more options for "effective range"
 - [ ] show weights in chart
 - [ ] show effective range in the chart

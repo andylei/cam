@@ -19,7 +19,8 @@ function prop(name) {
   return (obj) => obj[name];
 }
 
-let barHeight = 20;
+const BAR_HEIGHT = 20;
+const INNER_PADDING = 5;
 let svg = d3.select("svg"),
     margin = {top: 40, right: 20, bottom: 40, left: 0},
     width = +svg.attr("width") - margin.left - margin.right;
@@ -36,7 +37,9 @@ let CONFIG = {
   filter: null,
   filterItems: null,
   color: 'model',
-  units: 'metric'
+  units: 'metric',
+  scale: 'linear',
+  weights: 'hide'
 };
 
 let toolTip = null;
@@ -73,6 +76,14 @@ function bindEventHandlers() {
   });
   bindById('control-units', 'change', function(e) {
     CONFIG.units = e.target.value;
+    rerender();
+  });
+  bindById('control-scale', 'change', function(e) {
+    CONFIG.scale = e.target.value;
+    rerender();
+  });
+  bindById('control-weights', 'change', function(e) {
+    CONFIG.weights = e.target.value;
     rerender();
   });
   bindById('control-filter-open', 'click', function(e) {
@@ -165,14 +176,25 @@ function unitsImperial(mm) {
   return 0.0393701 * mm;
 }
 
+function buildHeightAndYAxis(showWeights, data) {
+  if (!showWeights) {
+    let height = BAR_HEIGHT * data.length;
+    return {
+      height,
+      y: d3.scaleBand().rangeRound([0, height]).paddingInner(0.1).domain(d3.range(data.length))
+    };
+  }
+
+  let y = d3.scaleLinear().range([0, BAR_HEIGHT]).domain([0, d3.min(data, prop('weight'))]);
+  return {
+    height: d3.sum(data, (d) => y(d.weight)) + data.length * INNER_PADDING,
+    y
+  }
+}
+
 function rerender() {
   let data = filterData(DATA);
   sortData(data);
-  let numRows = data.length;
-  let height = barHeight * numRows;
-  let innerPadding = 5;
-  let frameHeight = height + margin.top + margin.bottom + 2 * innerPadding;
-  svg.attr('height', frameHeight + 'px');
 
   if (toolTip && toolTip.hide) {
     toolTip.hide();
@@ -208,8 +230,6 @@ function rerender() {
       return rows.join('') + closeBtn;
     });
 
-  let y = d3.scaleBand().rangeRound([0, height]).paddingInner(0.1),
-      x = d3.scaleLinear().rangeRound([0, width]);
   let upperProp, lowerProp;
   if (CONFIG.expansion === 'max') {
     upperProp = 'upper';
@@ -219,8 +239,15 @@ function rerender() {
     lowerProp = 'usable_lower';
   }
 
+  const showWeights = CONFIG.weights === 'show';
+  let { y, height } = buildHeightAndYAxis(showWeights, data);
+  let x = CONFIG.scale === 'linear' ? d3.scaleLinear() : d3.scaleLog().base(2).nice();
+  x = x.rangeRound([0, width]);
+
   x.domain([ units(d3.min(data, prop(lowerProp))), units(d3.max(data, prop(upperProp))) ]);
-  y.domain(d3.range(numRows));
+
+  let frameHeight = height + margin.top + margin.bottom + 2 * INNER_PADDING;
+  svg.attr('height', frameHeight + 'px');
 
   container.selectAll('g').remove();
   container.call(toolTip);
@@ -229,8 +256,8 @@ function rerender() {
   container
     .append("g")
     .attr("class", "axis x bottom")
-    .attr("transform", "translate(0," + (height + 2 * innerPadding) + ")")
-    .call(d3.axisBottom(x).ticks(20))
+    .attr("transform", "translate(0," + (height + 2 * INNER_PADDING) + ")")
+    .call(d3.axisBottom(x).ticks(20, '.1'))
     .append('text')
     .attr('class', 'label')
     .attr("y", "30px")
@@ -250,7 +277,7 @@ function rerender() {
   container
     .append("g")
     .attr('class', 'grid x')
-    .call(d3.axisBottom(x).ticks(20).tickSize(height + 2 * innerPadding).tickFormat(''));
+    .call(d3.axisBottom(x).ticks(20).tickSize(height + 2 * INNER_PADDING).tickFormat(''));
 
   let bars = container
     .selectAll(".bar")
@@ -259,12 +286,34 @@ function rerender() {
     .append("g")
     .attr('class', 'bar');
 
+  function barHeight(d) {
+    if (showWeights) {
+      return y(d.weight);
+    } else {
+      return y.bandwidth();
+    }
+  }
+  let yLocs = [];
+  if (showWeights) {
+    let last = 0;
+    for (let d of data) {
+      last += y(d.weight) + INNER_PADDING;
+      yLocs.push(last);
+    }
+  }
+  function barY(i) {
+    if (showWeights) {
+      return yLocs[i]
+    } else {
+      return y(i);
+    }
+  }
   let barRects = bars
     .append('rect')
     .attr("x", (d) => x(units(d[lowerProp])))
-    .attr("y", (d, i) => y(i) + innerPadding)
+    .attr("y", (d, i) => barY(i) + INNER_PADDING)
     .attr("width", (d) => x(units(d[upperProp])) - x(units(d[lowerProp])))
-    .attr("height", y.bandwidth())
+    .attr("height", barHeight)
     .on('mouseover', function(d) {
       toolTip.show.apply(this, [d, this]);
     });
@@ -287,7 +336,7 @@ function rerender() {
   let labels = bars
     .append('text')
     .attr('x', getX)
-    .attr('y', (d, i) => y(i) + barHeight + innerPadding)
+    .attr('y', (d, i) => barY(i) + BAR_HEIGHT + INNER_PADDING)
     .attr('dy', '-.35em')
     .attr('text-anchor', (d) => flipOrientation(d) ? 'end' : null)
     .attr('fill', (d) => flipOrientation(d) ? 'white' : null)
