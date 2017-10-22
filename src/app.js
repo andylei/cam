@@ -82,10 +82,12 @@ function bindEventHandlers() {
     CONFIG.scale = e.target.value;
     rerender();
   });
+  /*
   bindById('control-weights', 'change', function(e) {
     CONFIG.weights = e.target.value;
     rerender();
   });
+  */
   bindById('control-filter-open', 'click', function(e) {
     toggleFilter();
   });
