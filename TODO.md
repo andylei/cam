@@ -3,8 +3,10 @@
 - [x] increase size of config panel
 - [x] view csv
 - [x] log scale
+- [ ] header expansion
+- [ ] header alignment
 - [ ] more options for "effective range"
-- [ ] show weights in chart
+- [x] show weights in chart
 - [ ] show effective range in the chart
 - [ ] add bd ultralight cams
 - [ ] big bros, ball nuts

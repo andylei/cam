@@ -82,12 +82,10 @@ function bindEventHandlers() {
     CONFIG.scale = e.target.value;
     rerender();
   });
-  /*
   bindById('control-weights', 'change', function(e) {
     CONFIG.weights = e.target.value;
     rerender();
   });
-  */
   bindById('control-filter-open', 'click', function(e) {
     toggleFilter();
   });
@@ -297,10 +295,10 @@ function rerender() {
   }
   let yLocs = [];
   if (showWeights) {
-    let last = 0;
+    let last = INNER_PADDING;
     for (let d of data) {
-      last += y(d.weight) + INNER_PADDING;
       yLocs.push(last);
+      last += y(d.weight) + INNER_PADDING;
     }
   }
   function barY(i) {
