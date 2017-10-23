@@ -3,7 +3,7 @@
 - [x] increase size of config panel
 - [x] view csv
 - [x] log scale
-- [ ] header expansion
+- [x] header expansion
 - [ ] header alignment
 - [ ] more options for "effective range"
 - [x] show weights in chart
