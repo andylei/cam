@@ -14,54 +14,81 @@
     </script>
   </head>
   <body>
-    <header>
-      <span class="title">Camparison</span>
-      <div class="control">
-        <button id="control-filter-open" class="dropdown" >Filter</button>
-        <div class="helper-text">
-          Choose which models and sizes to include.
+    <header class="expanded" >
+      <div class="title">Camparison</div>
+      <div class="controls">
+        <div class="control">
+          <button id="control-filter-open" class="dropdown" >Filter</button>
+          <div class="helper-text">
+            Choose which models and sizes to include.
+          </div>
+          <div id="control-filter-container" class="hidden" >
+            <button id="control-filter-apply" >Apply Filter</button>
+            <select id="control-filter-select" multiple >
+            </select>
+          </div>
         </div>
-        <div id="control-filter-container" class="hidden" >
-          <button id="control-filter-apply" >Apply Filter</button>
-          <select id="control-filter-select" multiple >
+        <div class="control select-container">
+          <label for="sort-by">Sort by:</label>
+          <select id="sort-by">
+            <option value="model">Model</option>
+            <option value="size">Size</option>
+            <option value="weight">Weight</option>
           </select>
         </div>
-      </div>
-      <div class="control select-container">
-        <label for="sort-by">Sort by:</label>
-        <select id="sort-by">
-          <option value="model">Model</option>
-          <option value="size">Size</option>
-          <option value="weight">Weight</option>
-        </select>
-      </div>
-      <div class="control select-container">
-        <label for="expansion">Expansion:</label>
-        <div class="helper-text">
-          "Max" is the manufacturer listed max and min expansion range.
-          "Usable" is estimated to be about 10% to 60-75% of the max range,
-          depending on the size. Cams in the fingers range get as low as 60%,
-          while cams in the hands and above range go up to 75%.
+        <div class="control select-container">
+          <label for="expansion">Expansion:</label>
+          <div class="helper-text">
+            "Max" is the manufacturer listed max and min expansion range.
+            "Usable" is estimated to be about 10% to 60-75% of the max range,
+            depending on the size. Cams in the fingers range get as low as 60%,
+            while cams in the hands and above range go up to 75%. Metolius cams
+            go by the usable ranges listed by the manufacturer.
+          </div>
+          <select id="expansion">
+            <option value="max">Max</option>
+            <option value="usable">Usable</option>
+          </select>
         </div>
-        <select id="expansion">
-          <option value="max">Max</option>
-          <option value="usable">Usable</option>
-        </select>
-      </div>
-      <div class="control select-container">
-        <label for="control-color">Color by:</label>
-        <select id="control-color">
-          <option value="model">Model</option>
-          <option value="cam">Cam color</option>
-          <option value="none">None</option>
-        </select>
-      </div>
-      <div class="control select-container">
-        <label for="control-units">Units:</label>
-        <select id="control-units">
-          <option value="metric">Metric</option>
-          <option value="imperial">Imperial</option>
-        </select>
+        <div class="control select-container">
+          <label for="control-color">Color by:</label>
+          <select id="control-color">
+            <option value="model">Model</option>
+            <option value="cam">Cam color</option>
+            <option value="none">None</option>
+          </select>
+        </div>
+        <div class="control select-container">
+          <label for="control-weights">Weights:</label>
+          <div class="helper-text">
+            Showing the weights will have the bar heights as proportional
+            to the weight of the cam. Hiding the weights will have all the
+            bar heights be the same.
+          </div>
+          <select id="control-weights">
+            <option value="hide">Hide</option>
+            <option value="show">Show</option>
+          </select>
+        </div>
+        <div class="control select-container">
+          <label for="control-scale">Scale:</label>
+          <select id="control-scale">
+            <option value="linear">Linear</option>
+            <option value="log">Log</option>
+          </select>
+        </div>
+        <div class="control select-container">
+          <label for="control-units">Units:</label>
+          <select id="control-units">
+            <option value="metric">Metric</option>
+            <option value="imperial">Imperial</option>
+          </select>
+        </div>
+        <div class="control">
+          <a href="https://docs.google.com/spreadsheets/d/1E0cluBzCXem_UztHMDegU5koFwo8QLnOtWNZpW3rHbw/edit?usp=sharing" target="_blank">
+            Source Data
+          </a>
+        </div>
       </div>
     </header>
     <svg width="960" height="500"></svg>
