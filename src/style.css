@@ -274,8 +274,6 @@ li.control {
   top: 5px;
   right: 5px;
 }
-.hide-popover > button {
-}
 
 .axis > .label {
   fill: black;
@@ -286,4 +284,24 @@ li.control {
 }
 .grid.x line {
   stroke: #ebebeb;
+}
+
+#share-info {
+  position: fixed;
+  background-color: #4285f4;
+  border-radius: 2px;
+  width: 400px;
+  padding: 10px;
+  line-height: normal;
+  box-shadow: 5px 5px 5px #555;
+  margin-left: -200px;
+
+  z-index: 99;
+  left: 50vw;
+  top: 40vh;
+}
+
+#share-info-url {
+  width: 100%;
+  font-size: 16px;
 }

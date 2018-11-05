@@ -99,15 +99,37 @@ function bindEventHandlers() {
     CONFIG.filterItems = values;
     rerender();
   });
+  bindById('control-share', 'click', function(e) {
+    let serialized = filterItemsToString();
+    window.location.hash = 'items=' + serialized;
+    e.preventDefault();
+    document.getElementById('share-info-url').value = window.location.toString();
+    document.getElementById('share-info').classList.toggle('hidden');
+    document.getElementById('share-info-url').select();
+  })
+  bindById('share-info-close', 'click', function(e) {
+    document.getElementById('share-info').classList.toggle('hidden');
+  })
 }
 
+/**
+ * One time setup for the filter element
+ */
 function setupFilters() {
+  let selected = CONFIG.filterItems || [];
+  let selectedMap = {};
+  for (let i = 0; i < selected.length; i++) {
+    selectedMap[selected[i]] = true;
+  }
   let select = document.getElementById('control-filter-select');
   for (let i = 0; i < DATA.length; i++) {
     let row = DATA[i];
     let opt = document.createElement('option');
     opt.setAttribute('data-section', `${row.brand}/${row.model}`);
     opt.setAttribute('value', i);
+    if (selectedMap[i]) {
+      opt.setAttribute('selected', '');
+    }
     opt.textContent = `${row.size}`;
     select.appendChild(opt);
   }
@@ -123,6 +145,45 @@ function loadData(cb) {
     }
   }
   cb();
+}
+
+/**
+ * A string representation of all the user's filtered (selected) items.
+ * Should be stable (so the string will be the same even if DATA gets more items).
+ */
+function filterItemsToString() {
+  let items = CONFIG.filterItems;
+  if (items && items.length) {
+    return CONFIG.filterItems.map((i) => DATA[i].id).join(',')
+  } else {
+    return '';
+  }
+}
+
+/**
+ * Set the filter items from a string.
+ * @param {*} serialized should be derived from `filterItemsToString()`
+ */
+function setFilterItemsFromString(serialized) {
+  if (!serialized) {
+    return;
+  }
+
+  let itemIds = {};
+  let itemIdArray = serialized.split(',');
+  for (let i = 0; i < itemIdArray.length; i++) {
+    let id = itemIdArray[i];
+    itemIds[id] = true;
+  }
+
+  let items = [];
+  for (let i = 0; i < DATA.length; i++) {
+    if (itemIds[DATA[i].id]) {
+      items.push(i);
+    }
+  }
+
+  CONFIG.filterItems = items;
 }
 
 function buildColorMap(data) {
@@ -397,6 +458,13 @@ function sortData(data) {
 
 bindEventHandlers();
 loadData(() => {
+  let h = window.location.hash;
+  if (h) {
+    let parts = h.split('=');
+    if (parts.length === 2 && parts[0] === '#items') {
+      setFilterItemsFromString(parts[1]);
+    }
+  }
   rerender();
   setupFilters();
 });
