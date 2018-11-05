@@ -110,6 +110,23 @@ function bindEventHandlers() {
   bindById('share-info-close', 'click', function(e) {
     document.getElementById('share-info').classList.toggle('hidden');
   })
+  // click handler to close the tooltip
+  document.addEventListener('click', function(e) {
+    if (!toolTip) {
+      return;
+    }
+    let element = e.srcElement;
+    while (element) {
+      // ignore any clicks in the header
+      // ignore clicks from inside the tooltip
+      if (element.tagName === 'HEADER' || element.classList.contains('d3-tip')) {
+        return;
+      }
+      element = element.parentElement;
+    }
+
+    toolTip.hide();
+  });
 }
 
 /**
