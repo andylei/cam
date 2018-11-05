@@ -335,7 +335,7 @@ function rerender() {
     .append("g")
     .attr("class", "axis x bottom")
     .attr("transform", "translate(0," + (height + 2 * INNER_PADDING) + ")")
-    .call(d3.axisBottom(x).ticks(20, '.1'))
+    .call(d3.axisBottom(x).ticks(20))
     .append('text')
     .attr('class', 'label')
     .attr("y", "30px")
