@@ -61,31 +61,24 @@ function toggleFilter() {
   document.getElementById('control-filter-container').classList.toggle('hidden');
 }
 
+const CONTROL_TO_CONFIG = {
+  'sort-by': 'sortOn',
+  'expansion': 'expansion',
+  'control-color': 'color',
+  'control-units': 'units',
+  'control-scale': 'scale',
+  'control-weights': 'weights'
+};
+
 function bindEventHandlers() {
-  bindById('sort-by', 'change', function(e) {
-    CONFIG.sortOn = e.target.value;
-    rerender();
-  });
-  bindById('expansion', 'change', function(e) {
-    CONFIG.expansion = e.target.value;
-    rerender();
-  });
-  bindById('control-color', 'change', function(e) {
-    CONFIG.color = e.target.value;
-    rerender();
-  });
-  bindById('control-units', 'change', function(e) {
-    CONFIG.units = e.target.value;
-    rerender();
-  });
-  bindById('control-scale', 'change', function(e) {
-    CONFIG.scale = e.target.value;
-    rerender();
-  });
-  bindById('control-weights', 'change', function(e) {
-    CONFIG.weights = e.target.value;
-    rerender();
-  });
+  for (let controlId in CONTROL_TO_CONFIG) {
+    bindById(controlId, 'change', (function(configKey) {
+      return function(event) {
+        CONFIG[configKey] = event.target.value;
+        rerender();
+      };
+    })(CONTROL_TO_CONFIG[controlId]));
+  }
   bindById('control-filter-open', 'click', function(e) {
     toggleFilter();
   });
@@ -100,8 +93,7 @@ function bindEventHandlers() {
     rerender();
   });
   bindById('control-share', 'click', function(e) {
-    let serialized = filterItemsToString();
-    window.location.hash = 'items=' + serialized;
+    window.location.hash = serializeConfig();
     e.preventDefault();
     document.getElementById('share-info-url').value = window.location.toString();
     document.getElementById('share-info').classList.toggle('hidden');
@@ -127,6 +119,14 @@ function bindEventHandlers() {
 
     toolTip.hide();
   });
+}
+
+/**
+ * One time setup for the controls. Sets up the filter element and
+ * sets selectors to match the config.
+ */
+function initControls() {
+  setupFilters();
 }
 
 /**
@@ -165,42 +165,64 @@ function loadData(cb) {
 }
 
 /**
- * A string representation of all the user's filtered (selected) items.
+ * all the config keys that can be saved / loaded
+ */
+const SERIALIZABLE_CONFIG_KEYS = ['sortOn', 'expansion', 'color', 'units', 'scale', 'weights'];
+
+/**
+ * A string representation of all the user's filtered (selected) items and other config items.
  * Should be stable (so the string will be the same even if DATA gets more items).
  */
-function filterItemsToString() {
+function serializeConfig() {
   let items = CONFIG.filterItems;
+  let configItems = [];
   if (items && items.length) {
-    return CONFIG.filterItems.map((i) => DATA[i].id).join(',')
-  } else {
-    return '';
+    configItems.push('items=' + CONFIG.filterItems.map((i) => DATA[i].id).join(','));
   }
+  for (let i = 0; i < SERIALIZABLE_CONFIG_KEYS.length; i++) {
+    let key = SERIALIZABLE_CONFIG_KEYS[i];
+    let val = CONFIG[key]
+    if (val) {
+      configItems.push(key + '=' + val);
+    }
+  }
+  return configItems.join('&');
 }
 
 /**
  * Set the filter items from a string.
- * @param {*} serialized should be derived from `filterItemsToString()`
+ * @param {*} serialized should be derived from `serializeConfig()`
  */
-function setFilterItemsFromString(serialized) {
+function setConfigFromString(serialized) {
   if (!serialized) {
     return;
   }
 
-  let itemIds = {};
-  let itemIdArray = serialized.split(',');
-  for (let i = 0; i < itemIdArray.length; i++) {
-    let id = itemIdArray[i];
-    itemIds[id] = true;
-  }
+  let parts = serialized.split('&');
+  for (let i = 0; i < parts.length; i++) {
+    let kv = parts[i].split('=', 2);
+    let key = kv[0];
+    let value = kv[1];
+    if (key === 'items') {
+      let itemIds = {};
+      let itemIdArray = value.split(',');
+      for (let i = 0; i < itemIdArray.length; i++) {
+        let id = itemIdArray[i];
+        itemIds[id] = true;
+      }
 
-  let items = [];
-  for (let i = 0; i < DATA.length; i++) {
-    if (itemIds[DATA[i].id]) {
-      items.push(i);
+      let items = [];
+      for (let i = 0; i < DATA.length; i++) {
+        if (itemIds[DATA[i].id]) {
+          items.push(i);
+        }
+      }
+
+      CONFIG.filterItems = items;
+    } else if (SERIALIZABLE_CONFIG_KEYS.includes(key)) {
+      CONFIG[key] = value;
     }
   }
-
-  CONFIG.filterItems = items;
 }
 
 function buildColorMap(data) {
@@ -477,11 +499,8 @@ bindEventHandlers();
 loadData(() => {
   let h = window.location.hash;
   if (h) {
-    let parts = h.split('=');
-    if (parts.length === 2 && parts[0] === '#items') {
-      setFilterItemsFromString(parts[1]);
-    }
+    setConfigFromString(h.split('#', 2)[1]);
   }
   rerender();
-  setupFilters();
+  initControls();
 });
