@@ -45,18 +45,24 @@ header:after {
   box-shadow: 0px 0px 8px 2px #555;
 }
 
-@media (max-width: 1380px) {
-  header {
-    height: 128px;
-  }
+header .row2 {
+  display: none;
+}
 
-  header > .title {
-    line-height: 128px;
-  }
+header.expanded .row2 {
+  display: flex;
+}
 
-  header:after {
-    margin-top: 127px;
-  }
+header.expanded {
+  height: 128px;
+}
+
+header.expanded > .title {
+  line-height: 128px;
+}
+
+header.expanded:after {
+  margin-top: 127px;
 }
 
 header > .controls {

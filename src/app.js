@@ -102,6 +102,14 @@ function bindEventHandlers() {
   bindById('share-info-close', 'click', function(e) {
     document.getElementById('share-info').classList.toggle('hidden');
   })
+  bindById('control-more', 'click', function(e) {
+    let header = document.getElementsByTagName('header')[0];
+    let wasExpanded = header.classList.contains('expanded');
+    header.classList.toggle('expanded');
+    let button = document.getElementById('control-more');
+    button.textContent = wasExpanded ? 'More Options...' : 'Fewer Options';
+    e.preventDefault();
+  });
   // click handler to close the tooltip
   document.addEventListener('click', function(e) {
     if (!toolTip) {
