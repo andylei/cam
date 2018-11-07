@@ -477,20 +477,23 @@ function rerender() {
   }
 
   if (showUsableBars) {
+    function lineColor(d) {
+      return d.color === 'yellow' ? 'gray' : 'white';
+    }
     bars
       .append('rect')
       .attr("x", (d) => x(units(d.lower10)))
       .attr("y", (d, i) => barY(i) + INNER_PADDING)
       .attr("width", 1)
       .attr("height", (x) => barHeight(x) - 4)
-      .attr('fill', 'white');
+      .attr('fill', lineColor);
     bars
       .append('rect')
       .attr("x", (d) => x(units(d.upper60)))
       .attr("y", (d, i) => barY(i) + INNER_PADDING)
       .attr("width", 1)
       .attr("height", (x) => barHeight(x) - 4)
-      .attr('fill', 'white');
+      .attr('fill', lineColor);
   }
 
   let getX = (d) => x(units(d[upperProp])) + 5 + 5;
