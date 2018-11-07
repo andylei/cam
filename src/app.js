@@ -29,7 +29,7 @@ let container = svg.append("g")
                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 let NUMERIC_PROPS = ['weight', 'lower', 'upper', 'range',
-                     'usable_lower', 'usable_upper'];
+                     'man_usable_lower', 'man_usable_upper'];
 
 let CONFIG = {
   sortOn: 'model',
@@ -163,12 +163,26 @@ function setupFilters() {
   jQuery(select).treeMultiselect(opts);
 }
 
+/**
+ * Some values we calculate instead of loading directly.
+ */
+function recalculateRanges() {
+  for (let d of DATA) {
+    d.upper60 = d.upper - 0.4 * d.range;
+    d.lower10 = d.lower + 0.1 * d.range;
+
+    d.usable_upper = d.man_usable_upper || d.upper60;
+    d.usable_lower = d.man_usable_lower || d.lower10;
+  }
+}
+
 function loadData(cb) {
   for (let d of DATA) {
     for (let prop of NUMERIC_PROPS) {
       d[prop] = +d[prop];
     }
   }
+  recalculateRanges();
   cb();
 }
 
@@ -344,13 +358,15 @@ function rerender() {
       return rows.join('') + closeBtn;
     });
 
-  let upperProp, lowerProp;
+  let upperProp, lowerProp, showUsableBars;
   if (CONFIG.expansion === 'max') {
     upperProp = 'upper';
     lowerProp = 'lower';
+    showUsableBars = true;
   } else {
     upperProp = 'usable_upper';
     lowerProp = 'usable_lower';
+    showUsableBars = false;
   }
 
   const showWeights = CONFIG.weights === 'show';
@@ -443,6 +459,23 @@ function rerender() {
       break;
     default:
       throw new Error('unhandled coloring type: ' + CONFIG.color);
+  }
+
+  if (showUsableBars) {
+    bars
+      .append('rect')
+      .attr("x", (d) => x(units(d.lower10)))
+      .attr("y", (d, i) => barY(i) + INNER_PADDING)
+      .attr("width", 1)
+      .attr("height", (x) => barHeight(x) - 4)
+      .attr('fill', 'white');
+    bars
+      .append('rect')
+      .attr("x", (d) => x(units(d.upper60)))
+      .attr("y", (d, i) => barY(i) + INNER_PADDING)
+      .attr("width", 1)
+      .attr("height", (x) => barHeight(x) - 4)
+      .attr('fill', 'white');
   }
 
   let getX = (d) => x(units(d[upperProp])) + 5 + 5;
