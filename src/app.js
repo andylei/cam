@@ -135,6 +135,21 @@ function bindEventHandlers() {
  */
 function initControls() {
   setupFilters();
+  for (let controlId in CONTROL_TO_CONFIG) {
+    let configKey = CONTROL_TO_CONFIG[controlId];
+
+    let configValue = CONFIG[configKey];
+    if (configValue) {
+      let selectEle = document.getElementById(controlId);
+      for (let i = 0; i < selectEle.options.length; i++) {
+        let opt = selectEle.options[i];
+        if (opt.value === configValue) {
+          selectEle.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -155,7 +170,7 @@ function setupFilters() {
     if (selectedMap[i]) {
       opt.setAttribute('selected', '');
     }
-    opt.textContent = `${row.size}`;
+    opt.textContent = `${row.size} | ${row.color}`;
     select.appendChild(opt);
   }
 
