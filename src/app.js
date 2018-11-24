@@ -462,9 +462,10 @@ function rerender() {
     .on('mouseover', function(d) {
       toolTip.show.apply(this, [d, this]);
     });
+  let colorMap = null;
   switch (CONFIG.color) {
     case 'model':
-      let colorMap = buildColorMap(data);
+      colorMap = buildColorMap(data);
       barRects.attr('fill', (d) => colorMap[d.model]);
       break;
     case 'cam':
@@ -478,7 +479,8 @@ function rerender() {
 
   if (showUsableBars) {
     function lineColor(d) {
-      return d.color === 'yellow' ? 'gray' : 'white';
+      let color = colorMap ? colorMap[d.model] : d.color;
+      return color === 'yellow' ? 'gray' : 'white';
     }
     bars
       .append('rect')
