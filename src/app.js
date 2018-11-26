@@ -70,6 +70,18 @@ const CONTROL_TO_CONFIG = {
   'control-weights': 'weights'
 };
 
+function clickModeButton(event) {
+  let buttons = document.querySelectorAll('#control-filter-mode > button');
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].removeAttribute('disabled')
+  }
+  event.currentTarget.setAttribute('disabled', '');
+  let filters = document.querySelectorAll('#control-filter-container .filter-body');
+  for (let i = 0; i < filters.length; i++) {
+    filters[i].classList.toggle('hidden');
+  }
+}
+
 function bindEventHandlers() {
   for (let controlId in CONTROL_TO_CONFIG) {
     bindById(controlId, 'change', (function(configKey) {
@@ -91,6 +103,12 @@ function bindEventHandlers() {
     }
     CONFIG.filterItems = values;
     rerender();
+  });
+  bindById('control-filter-mode-size', 'click', function(e) {
+    clickModeButton(e);
+  });
+  bindById('control-filter-mode-model', 'click', function(e) {
+    clickModeButton(e);
   });
   bindById('control-share', 'click', function(e) {
     window.location.hash = serializeConfig();

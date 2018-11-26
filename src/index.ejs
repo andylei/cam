@@ -23,11 +23,24 @@
             <div class="helper-text">
               Choose which models and sizes to include.
             </div>
-            <div id="control-filter-container" class="hidden" >
-              <button id="control-filter-apply" >Apply</button>
-              <span id="control-filter-info">Uncheck all boxes to show all</span>
-              <select id="control-filter-select" multiple >
-              </select>
+            <div id="control-filter-container" class="hidden">
+              <div id="control-filter-mode">
+                Choose by
+                <button id="control-filter-mode-model" disabled>
+                  model
+                </button>
+                <button id="control-filter-mode-size">
+                  size
+                </button>
+              </div>
+              <div id="control-filter-brand" class="filter-body">
+                <button id="control-filter-apply">Apply choices</button>
+                <span id="control-filter-info">Uncheck all boxes to show all</span>
+                <select id="control-filter-select" multiple ></select>
+              </div>
+              <div id="control-filter-size" class="filter-body hidden">
+                Size chooser
+              </div>
             </div>
           </div>
           <div class="control select-container">

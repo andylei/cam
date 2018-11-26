@@ -115,13 +115,18 @@ svg {
   width: 400px;
 }
 
-#control-filter-container > button {
+#control-filter-container button {
   line-height: 32px;
   margin: 12px 0;
   border-radius: 2px;
   padding: 0 12px;
   background-color: #4285f4;
   color: white;
+}
+
+#control-filter-mode button:enabled {
+  color: black;
+  background-color: #ddd;
 }
 
 .control {
