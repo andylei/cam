@@ -3,7 +3,7 @@
   "dependencies": {
     "d3": "^4.10.2",
     "d3-tip": "^0.7.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.4.0",
     "tree-multiselect": "^2.3.1"
   },
   "devDependencies": {
