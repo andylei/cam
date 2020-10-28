@@ -53,7 +53,7 @@ let CONFIG = {
   sortOn: "model",
   expansion: "max",
   filter: null,
-  filterItems: null,
+  filterItems: DATA.flatMap((row, i) => Number(row.show) ? [i] : []),
   color: "model",
   units: "metric",
   scale: "linear",
@@ -203,7 +203,7 @@ function setupFilters() {
     select.appendChild(opt);
   }
 
-  let opts = { searchable: true, hideSidePanel: true, startCollapsed: true };
+  let opts = { searchable: true, hideSidePanel: true, startCollapsed: true, enableSelectAll: true };
   jQuery(select).treeMultiselect(opts);
 }
 
