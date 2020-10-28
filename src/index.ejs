@@ -1,122 +1,138 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <!-- Global Site Tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-107858277-1"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-107858277-1"
+    ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'UA-107858277-1');
+      gtag("config", "UA-107858277-1");
     </script>
   </head>
   <body>
-    <header>
-      <div class="title">Camparison</div>
-      <div class="controls">
-        <div class="row1">
-          <div class="control">
-            <button id="control-filter-open" class="dropdown" >Choose Cams</button>
-            <div class="helper-text">
-              Choose which models and sizes to include.
+    <div class="top">
+      <header>
+        <div class="title">Camparison</div>
+        <div class="controls">
+          <div class="row1">
+            <div class="control">
+              <button id="control-filter-open" class="dropdown">
+                Choose Cams
+              </button>
+              <div class="helper-text">
+                Choose which models and sizes to include.
+              </div>
+              <div id="control-filter-container" class="hidden">
+                <button id="control-filter-apply">Apply</button>
+                <span id="control-filter-info"
+                  >Uncheck all boxes to show all</span
+                >
+                <select id="control-filter-select" multiple> </select>
+              </div>
             </div>
-            <div id="control-filter-container" class="hidden" >
-              <button id="control-filter-apply" >Apply</button>
-              <span id="control-filter-info">Uncheck all boxes to show all</span>
-              <select id="control-filter-select" multiple >
+            <div class="control select-container">
+              <label for="sort-by">Sort by:</label>
+              <select id="sort-by">
+                <option value="model">model</option>
+                <option value="size">size</option>
+                <option value="weight">weight</option>
               </select>
             </div>
-          </div>
-          <div class="control select-container">
-            <label for="sort-by">Sort by:</label>
-            <select id="sort-by">
-              <option value="model">model</option>
-              <option value="size">size</option>
-              <option value="weight">weight</option>
-            </select>
-          </div>
-          <div class="control select-container">
-            <label for="control-color">Color by:</label>
-            <select id="control-color">
-              <option value="model">model</option>
-              <option value="cam">cam color</option>
-              <option value="none">none</option>
-            </select>
-          </div>
-          <div class="control share">
-            <a href="#" id="control-share">Share</a>
-            <div id="share-info" class="hidden">
-              <p>Use this link to share this Cam-parison:</p>
-              <p>
-                <input id="share-info-url" type="url" readonly="true">
-              </p>
-              <p><button id="share-info-close">OK</button></p>
+            <div class="control select-container">
+              <label for="control-color">Color by:</label>
+              <select id="control-color">
+                <option value="model">model</option>
+                <option value="cam">cam color</option>
+                <option value="none">none</option>
+              </select>
+            </div>
+            <div class="control share">
+              <a href="#" id="control-share">Share</a>
+              <div id="share-info" class="hidden">
+                <p>Use this link to share this Cam-parison:</p>
+                <p>
+                  <input id="share-info-url" type="url" readonly="true" />
+                </p>
+                <p><button id="share-info-close">OK</button></p>
+              </div>
+            </div>
+            <div class="control share">
+              <a href="#" id="control-more">More Options...</a>
             </div>
           </div>
-          <div class="control share">
-            <a href="#" id="control-more">More Options...</a>
+          <div class="row2">
+            <div class="control select-container">
+              <label for="expansion">Expansion:</label>
+              <div class="helper-text">
+                <p>
+                  <b>Max</b> is the manufacturer listed max and min expansion
+                  range. When you select this, I'll also show you lines
+                  indicating where 10% and 60% expansion range is. Many people
+                  consider 10% and 60% expansion to be a reasonable usable range
+                  for cams, but these numbers may differ from cam to cam and
+                  also depend on your risk tolerance.
+                </p>
+                <p>
+                  <b>Usable</b> is 10% to 60% of the max range, unless a
+                  manufacturer publishes a different number. Metolius is
+                  currently the only manufacturer that publishes a usable range.
+                  When you select this option, the entire bar represents the
+                  usable range.
+                </p>
+              </div>
+              <select id="expansion">
+                <option value="max">Max</option>
+                <option value="usable">Usable</option>
+              </select>
+            </div>
+            <div class="control select-container">
+              <label for="control-scale">Scale:</label>
+              <select id="control-scale">
+                <option value="linear">Linear</option>
+                <option value="log">Log</option>
+              </select>
+            </div>
+            <div class="control select-container">
+              <label for="control-units">Units:</label>
+              <select id="control-units">
+                <option value="metric">Metric</option>
+                <option value="imperial">Imperial</option>
+              </select>
+            </div>
+            <div class="control select-container">
+              <label for="control-weights">Weights:</label>
+              <div class="helper-text">
+                Showing the weights will have the bar heights as proportional to
+                the weight of the cam. Hiding the weights will have all the bar
+                heights be the same.
+              </div>
+              <select id="control-weights">
+                <option value="hide">Hide</option>
+                <option value="show">Show</option>
+              </select>
+            </div>
+            <div class="control">
+              <a
+                href="https://docs.google.com/spreadsheets/d/1E0cluBzCXem_UztHMDegU5koFwo8QLnOtWNZpW3rHbw/edit?usp=sharing"
+                target="_blank"
+              >
+                Source Data
+              </a>
+            </div>
           </div>
         </div>
-        <div class="row2">
-          <div class="control select-container">
-            <label for="expansion">Expansion:</label>
-            <div class="helper-text">
-              <p>
-                <b>Max</b> is the manufacturer listed max and min expansion range.
-                When you select this, I'll also show you lines indicating where 10%
-                and 60% expansion range is. Many people consider 10% and 60% expansion
-                to be a reasonable usable range for cams, but these numbers may differ
-                from cam to cam and also depend on your risk tolerance.
-              </p>
-              <p>
-                <b>Usable</b> is 10% to 60% of the max range, unless a manufacturer publishes
-                a different number. Metolius is currently the only manufacturer that publishes
-                a usable range. When you select this option, the entire bar represents the
-                usable range.
-              </p>
-            </div>
-            <select id="expansion">
-              <option value="max">Max</option>
-              <option value="usable">Usable</option>
-            </select>
-          </div>
-          <div class="control select-container">
-            <label for="control-scale">Scale:</label>
-            <select id="control-scale">
-              <option value="linear">Linear</option>
-              <option value="log">Log</option>
-            </select>
-          </div>
-          <div class="control select-container">
-            <label for="control-units">Units:</label>
-            <select id="control-units">
-              <option value="metric">Metric</option>
-              <option value="imperial">Imperial</option>
-            </select>
-          </div>
-          <div class="control select-container">
-            <label for="control-weights">Weights:</label>
-            <div class="helper-text">
-              Showing the weights will have the bar heights as proportional
-              to the weight of the cam. Hiding the weights will have all the
-              bar heights be the same.
-            </div>
-            <select id="control-weights">
-              <option value="hide">Hide</option>
-              <option value="show">Show</option>
-            </select>
-          </div>
-          <div class="control">
-            <a href="https://docs.google.com/spreadsheets/d/1E0cluBzCXem_UztHMDegU5koFwo8QLnOtWNZpW3rHbw/edit?usp=sharing" target="_blank">
-              Source Data
-            </a>
-          </div>
-        </div>
-      </div>
-    </header>
-    <svg width="960" height="500"></svg>
+      </header>
+      <svg id="viz-header" width="960" height="50"></svg>
+    </div>
+    <svg id="viz-body" width="960" height="500"></svg>
   </body>
 </html>

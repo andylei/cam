@@ -11,7 +11,12 @@
 
 body {
   margin: 0;
-  font-family: RobotoDraft, 'Helvetica Neue', Helvetica, Arial;
+  font-family: RobotoDraft, "Helvetica Neue", Helvetica, Arial;
+}
+
+.top {
+  position: fixed;
+  top: 0;
 }
 
 header {
@@ -21,6 +26,8 @@ header {
   background-color: #4285f4;
   color: white;
   font-size: 18px;
+  z-index: 2;
+  position: relative;
 }
 
 header > .title {
@@ -99,6 +106,14 @@ header .control button.dropdown:after {
 
 svg {
   margin: 0 16px;
+}
+
+svg#viz-header {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+svg#viz-body {
+  margin-top: 110px;
 }
 
 #control-filter-container {
@@ -239,7 +254,11 @@ svg {
   margin-bottom: 6px;
 }
 
-.control .tree-multiselect .section.collapsed > div.title span.collapse-section:after {
+.control
+  .tree-multiselect
+  .section.collapsed
+  > div.title
+  span.collapse-section:after {
   content: "▸";
 }
 
@@ -285,10 +304,16 @@ li.control {
   fill: black;
 }
 
-.grid.x path, .grid.x text {
+.grid.sub-x path,
+.grid.sub-x text,
+.grid.x path,
+.grid.x text {
   display: none;
 }
 .grid.x line {
+  stroke: #cccccc;
+}
+.grid.sub-x line {
   stroke: #ebebeb;
 }
 
