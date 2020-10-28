@@ -378,12 +378,6 @@ function rerender() {
   let data = filterData(DATA);
   sortData(data);
 
-  if (CONFIG.filterItems && CONFIG.filterItems.length) {
-    document.getElementById("control-filter-info").classList.remove("hidden");
-  } else {
-    document.getElementById("control-filter-info").classList.add("hidden");
-  }
-
   if (toolTip && toolTip.hide) {
     toolTip.hide();
   }
